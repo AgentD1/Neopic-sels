@@ -4107,35 +4107,58 @@ void neopixel_fill(unsigned char, unsigned char, unsigned char, unsigned char);
 # 20 "main.c" 2
 
 
+void rainbowCycle();
+
 void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned char h, unsigned char s, unsigned char v);
+
+int numFunctions = 2;
+void (*colorFunctions[])(void) = {rainbowCycle};
+
+int tick = 1;
+int ticks_left = 0;
+
+unsigned char left_shift = 0;
+
+unsigned char reds[45];
+unsigned char greens[45];
+unsigned char blues[45];
 
 int main(void) {
 
     OSC_config();
     UBMP4_config();
 
-
     int red = 0xFF;
     int green = 0;
     int blue = 0;
-
-    int tick = 1;
-
-    unsigned char reds[45];
-    unsigned char greens[45];
-    unsigned char blues[45];
 
 
     while(1) {
         neopixel_fill_a(45, reds, greens, blues);
 
+        if(ticks_left == 0) {
+            if(PORTBbits.RB4 == 0 && left_shift != 8) {
+                left_shift++;
+                ticks_left = 20;
+            }
+            if(PORTBbits.RB5 == 0 && left_shift != 0) {
+                left_shift--;
+                ticks_left = 20;
+            }
+        } else {
+            ticks_left--;
+        }
+
         _delay((unsigned long)((4)*(48000000/4000.0)));
 
         for(unsigned char i = 0; i < 45; i++) {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], tick + (i * 2), 255, 255);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick * 2 + 1) + (i * 2), 255, 255);
+            reds[i] >>= left_shift;
+            greens[i] >>= left_shift;
+            blues[i] >>= left_shift;
         }
 
-        tick += 2;
+        tick += 1;
 
 
         if(PORTAbits.RA3 == 0) {
@@ -4143,6 +4166,11 @@ int main(void) {
         }
     }
 }
+
+void rainbowCycle() {
+
+}
+
 
 void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned char h, unsigned char s, unsigned char v) {
     unsigned char region, fpart, p, q, t;

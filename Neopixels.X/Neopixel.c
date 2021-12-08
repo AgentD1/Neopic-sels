@@ -12,11 +12,11 @@
 void neopixel_colour_send(unsigned char colour);
 
 void neopixel_fill_a(unsigned char leds, unsigned char red[], unsigned char green[], unsigned char blue[]) {
-    leds--;
-    for(; leds != 255; leds --) {
-        neopixel_colour_send(green[leds]);
-        neopixel_colour_send(red[leds]);
-        neopixel_colour_send(blue[leds]);
+    int ledNum = 0;
+    for(; ledNum != leds; ledNum++) {
+        neopixel_colour_send(green[ledNum]);
+        neopixel_colour_send(red[ledNum]);
+        neopixel_colour_send(blue[ledNum]);
     }
 }
 

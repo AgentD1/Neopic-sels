@@ -459,29 +459,30 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _blue `*uc ~T0 @X0 1 r4 ]
 [f ]
 "15
-[; ;Neopixel.c: 15:     leds--;
-[e -- _leds -> -> 1 `i `uc ]
+[; ;Neopixel.c: 15:     int ledNum = 0;
+[v _ledNum `i ~T0 @X0 1 a ]
+[e = _ledNum -> 0 `i ]
 "16
-[; ;Neopixel.c: 16:     for(; leds != 255; leds --) {
+[; ;Neopixel.c: 16:     for(; ledNum != leds; ledNum++) {
 {
-[e $ != -> _leds `i -> 255 `i 328  ]
-[e $U 329  ]
+[e $U 331  ]
 [e :U 328 ]
 {
 "17
-[; ;Neopixel.c: 17:         neopixel_colour_send(green[leds]);
-[e ( _neopixel_colour_send (1 *U + _green * -> _leds `ux -> -> # *U _green `ui `ux ]
+[; ;Neopixel.c: 17:         neopixel_colour_send(green[ledNum]);
+[e ( _neopixel_colour_send (1 *U + _green * -> _ledNum `x -> -> # *U _green `i `x ]
 "18
-[; ;Neopixel.c: 18:         neopixel_colour_send(red[leds]);
-[e ( _neopixel_colour_send (1 *U + _red * -> _leds `ux -> -> # *U _red `ui `ux ]
+[; ;Neopixel.c: 18:         neopixel_colour_send(red[ledNum]);
+[e ( _neopixel_colour_send (1 *U + _red * -> _ledNum `x -> -> # *U _red `i `x ]
 "19
-[; ;Neopixel.c: 19:         neopixel_colour_send(blue[leds]);
-[e ( _neopixel_colour_send (1 *U + _blue * -> _leds `ux -> -> # *U _blue `ui `ux ]
+[; ;Neopixel.c: 19:         neopixel_colour_send(blue[ledNum]);
+[e ( _neopixel_colour_send (1 *U + _blue * -> _ledNum `x -> -> # *U _blue `i `x ]
 "20
 [; ;Neopixel.c: 20:     }
 }
-[e -- _leds -> -> 1 `i `uc ]
-[e $ != -> _leds `i -> 255 `i 328  ]
+[e ++ _ledNum -> 1 `i ]
+[e :U 331 ]
+[e $ != _ledNum -> _leds `i 328  ]
 [e :U 329 ]
 }
 "21
@@ -501,9 +502,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "24
 [; ;Neopixel.c: 24:     for(; leds != 0; leds --) {
 {
-[e $ != -> _leds `i -> 0 `i 332  ]
-[e $U 333  ]
-[e :U 332 ]
+[e $ != -> _leds `i -> 0 `i 333  ]
+[e $U 334  ]
+[e :U 333 ]
 {
 "25
 [; ;Neopixel.c: 25:         neopixel_colour_send(green);
@@ -518,12 +519,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;Neopixel.c: 28:     }
 }
 [e -- _leds -> -> 1 `i `uc ]
-[e $ != -> _leds `i -> 0 `i 332  ]
-[e :U 333 ]
+[e $ != -> _leds `i -> 0 `i 333  ]
+[e :U 334 ]
 }
 "29
 [; ;Neopixel.c: 29: }
-[e :UE 331 ]
+[e :UE 332 ]
 }
 "31
 [; ;Neopixel.c: 31: void neopixel_colour_send(unsigned char colour) {
@@ -537,16 +538,16 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 [v _bits `uc ~T0 @X0 1 a ]
 [e = _bits -> -> 8 `i `uc ]
-[e $ != -> _bits `i -> 0 `i 336  ]
-[e $U 337  ]
-[e :U 336 ]
+[e $ != -> _bits `i -> 0 `i 337  ]
+[e $U 338  ]
+[e :U 337 ]
 {
 "33
 [; ;Neopixel.c: 33:         LATCbits.LATC0 = 1;
 [e = . . _LATCbits 0 0 -> -> 1 `i `uc ]
 "34
 [; ;Neopixel.c: 34:         if((colour & 0b10000000) == 0) {
-[e $ ! == & -> _colour `i -> 128 `i -> 0 `i 339  ]
+[e $ ! == & -> _colour `i -> 128 `i -> 0 `i 340  ]
 {
 "35
 [; ;Neopixel.c: 35:             LATCbits.LATC0 = 0;
@@ -554,7 +555,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "36
 [; ;Neopixel.c: 36:         }
 }
-[e :U 339 ]
+[e :U 340 ]
 "37
 [; ;Neopixel.c: 37:         __nop();
 [e ( ___nop ..  ]
@@ -568,10 +569,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;Neopixel.c: 40:     }
 }
 [e -- _bits -> -> 1 `i `uc ]
-[e $ != -> _bits `i -> 0 `i 336  ]
-[e :U 337 ]
+[e $ != -> _bits `i -> 0 `i 337  ]
+[e :U 338 ]
 }
 "41
 [; ;Neopixel.c: 41: }
-[e :UE 335 ]
+[e :UE 336 ]
 }

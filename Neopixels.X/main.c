@@ -19,41 +19,68 @@
 
 #include    "Neopixel.h"
 
+void rainbowCycle();
+
 void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned char h, unsigned char s, unsigned char v);
+
+int numFunctions = 2;
+void (*colorFunctions[])(void) = {rainbowCycle};
+
+int tick = 1;
+int ticks_left = 0;
+
+unsigned char left_shift = 0;
+
+unsigned char reds[45];
+unsigned char greens[45];
+unsigned char blues[45];
 
 int main(void) {
     // Configure oscillator and I/O ports. These functions run once at start-up.
     OSC_config();               // Configure internal oscillator for 48 MHz
     UBMP4_config();             // Configure on-board UBMP4 I/O devices
     
-    
     int red = 0xFF;
     int green = 0;
     int blue = 0;
-    
-    int tick = 1;
-    
-    unsigned char reds[45];
-    unsigned char greens[45];
-    unsigned char blues[45];
     
     // Code in this while loop runs repeatedly.
     while(1) {
         neopixel_fill_a(45, reds, greens, blues);
         
+        if(ticks_left == 0) {
+            if(SW2 == 0 && left_shift != 8) {
+                left_shift++;
+                ticks_left = 20;
+            }
+            if(SW3 == 0 && left_shift != 0) {
+                left_shift--;
+                ticks_left = 20;
+            }
+        } else {
+            ticks_left--;
+        }
+        
         __delay_ms(4);
         
         for(unsigned char i = 0; i < 45; i++) {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], tick + (i * 2), 255, 255);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick * 2 + 1) + (i * 2), 255, 255);
+            reds[i] >>= left_shift;
+            greens[i] >>= left_shift;
+            blues[i] >>= left_shift;
         }
         
-        tick += 2;
+        tick += 1;
                 
         // Activate bootloader if SW1 is pressed.
         if(SW1 == 0) {
             RESET();
         }
     }
+}
+
+void rainbowCycle() {
+    
 }
 
 // http://web.mit.edu/storborg/Public/hsvtorgb.c
