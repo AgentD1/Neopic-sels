@@ -13,24 +13,24 @@
 %PSECTS
 $dist/default/production\Neopixels.X.production.o
 cinit CODE 0 FD5 FD5 2B 2
-text1 CODE 0 D26 D26 35 2
-text2 CODE 0 CCF CCF 19 2
+text1 CODE 0 D2E D2E 2D 2
+text2 CODE 0 CD7 CD7 19 2
 text3 CODE 0 E64 E64 171 2
-text4 CODE 0 D07 D07 1F 2
-text5 CODE 0 CBA CBA 15 2
+text4 CODE 0 D0F D0F 1F 2
+text5 CODE 0 CC2 CC2 15 2
 text6 CODE 0 D5B D5B 5F 2
-text7 CODE 0 CE8 CE8 1F 2
-text8 CODE 0 CAE CAE C 2
+text7 CODE 0 CF0 CF0 1F 2
+text8 CODE 0 CB6 CB6 C 2
 maintext CODE 0 DBA DBA AA 2
 cstackCOMMON COMMON 1 70 70 E 1
 cstackBANK0 BANK0 1 50 50 18 1
 bssBANK0 BANK0 1 20 20 30 1
 bssBANK1 BANK1 1 A0 A0 2D 1
 bssBANK2 BANK2 1 120 120 2D 1
-idataBANK0 CODE 0 CA8 CA8 6 2
+idataBANK0 CODE 0 CB0 CB0 6 2
 dataBANK0 BANK0 1 68 68 6 1
-clrtext CODE 0 CA2 CA2 6 2
-$C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
+clrtext CODE 0 CAA CAA 6 2
+$C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
 init CODE 0 803 803 1 2
 reset_vec CODE 0 800 800 3 2
 end_init CODE 0 804 804 2 2
@@ -63,9 +63,9 @@ BANK6 320-36F 1
 BANK7 3A0-3EF 1
 BANK8 420-46F 1
 BANK9 4A0-4EF 1
-CONST 806-CA1 2
+CONST 806-CA9 2
 CONST 1000-1FFF 2
-ENTRY 806-CA1 2
+ENTRY 806-CA9 2
 ENTRY 1000-1FFF 2
 IDLOC 8000-8003 2
 SFR10 500-51F 1
@@ -91,7 +91,7 @@ SFR29 E80-EEF 1
 SFR30 F00-F6F 1
 SFR31 F80-FEF 1
 STACK 20CD-23EF 1
-CODE 806-CA1 2
+CODE 806-CA9 2
 CODE 1000-1FFF 2
 SFR0 0-1F 1
 SFR1 80-9F 1
@@ -108,9 +108,9 @@ BANK11 5A0-5EF 1
 BANK12 620-64F 1
 BIGRAM 2000-23EF 1
 CONFIG 8007-8008 2
-STRCODE 806-CA1 2
+STRCODE 806-CA9 2
 STRCODE 1000-1FFF 2
-STRING 806-CA1 2
+STRING 806-CA9 2
 STRING 1000-1FFF 2
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
@@ -126,64 +126,64 @@ STRING 1000-1FFF 2
 # All other numeric values are in decimal.
 %LINETAB
 $dist/default/production\Neopixels.X.production.o
-FD5 cinit CODE >1059:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FD5 cinit CODE >1062:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FD5 cinit CODE >1112:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FD6 cinit CODE >1113:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FD7 cinit CODE >1114:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FD8 cinit CODE >1115:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FD9 cinit CODE >1116:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FDA cinit CODE >1117:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FDB cinit CODE >1118:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FDC cinit CODE >1119:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FDD cinit CODE >1120:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FDE cinit CODE >1121:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FDF cinit CODE >1122:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE0 cinit CODE >1123:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE1 cinit CODE >1124:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE2 cinit CODE >1125:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE3 cinit CODE >1126:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE4 cinit CODE >1127:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE5 cinit CODE >1144:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE6 cinit CODE >1145:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE7 cinit CODE >1146:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE8 cinit CODE >1147:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FE9 cinit CODE >1148:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FEA cinit CODE >1149:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FED cinit CODE >1153:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FEE cinit CODE >1154:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FEF cinit CODE >1155:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FF0 cinit CODE >1156:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FF1 cinit CODE >1157:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FF2 cinit CODE >1158:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FF5 cinit CODE >1162:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FF6 cinit CODE >1163:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FF7 cinit CODE >1164:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FF8 cinit CODE >1165:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FF9 cinit CODE >1166:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FFA cinit CODE >1167:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FFD cinit CODE >1173:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FFD cinit CODE >1175:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-FFE cinit CODE >1176:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-CAE text8 CODE >21:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CAE text8 CODE >23:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CB1 text8 CODE >24:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CB4 text8 CODE >25:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CB9 text8 CODE >26:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CE8 text7 CODE >29:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CE8 text7 CODE >31:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CEB text7 CODE >33:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CED text7 CODE >34:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CF0 text7 CODE >35:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CF2 text7 CODE >36:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CF5 text7 CODE >38:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CF7 text7 CODE >39:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CFA text7 CODE >40:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CFC text7 CODE >41:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-CFF text7 CODE >43:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-D01 text7 CODE >44:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-D04 text7 CODE >45:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
-D06 text7 CODE >48:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+FD5 cinit CODE >1059:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FD5 cinit CODE >1062:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FD5 cinit CODE >1112:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FD6 cinit CODE >1113:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FD7 cinit CODE >1114:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FD8 cinit CODE >1115:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FD9 cinit CODE >1116:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FDA cinit CODE >1117:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FDB cinit CODE >1118:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FDC cinit CODE >1119:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FDD cinit CODE >1120:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FDE cinit CODE >1121:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FDF cinit CODE >1122:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE0 cinit CODE >1123:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE1 cinit CODE >1124:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE2 cinit CODE >1125:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE3 cinit CODE >1126:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE4 cinit CODE >1127:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE5 cinit CODE >1144:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE6 cinit CODE >1145:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE7 cinit CODE >1146:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE8 cinit CODE >1147:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FE9 cinit CODE >1148:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FEA cinit CODE >1149:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FED cinit CODE >1153:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FEE cinit CODE >1154:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FEF cinit CODE >1155:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FF0 cinit CODE >1156:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FF1 cinit CODE >1157:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FF2 cinit CODE >1158:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FF5 cinit CODE >1162:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FF6 cinit CODE >1163:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FF7 cinit CODE >1164:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FF8 cinit CODE >1165:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FF9 cinit CODE >1166:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FFA cinit CODE >1167:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FFD cinit CODE >1173:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FFD cinit CODE >1175:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+FFE cinit CODE >1176:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+CB6 text8 CODE >21:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CB6 text8 CODE >23:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CB9 text8 CODE >24:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CBC text8 CODE >25:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CC1 text8 CODE >26:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CF0 text7 CODE >29:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CF0 text7 CODE >31:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CF3 text7 CODE >33:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CF5 text7 CODE >34:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CF8 text7 CODE >35:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CFA text7 CODE >36:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CFD text7 CODE >38:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+CFF text7 CODE >39:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+D02 text7 CODE >40:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+D04 text7 CODE >41:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+D07 text7 CODE >43:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+D09 text7 CODE >44:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+D0C text7 CODE >45:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
+D0E text7 CODE >48:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\UBMP4.c
 D5B text6 CODE >5:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\awdiv.c
 D5B text6 CODE >13:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\awdiv.c
 D5C text6 CODE >14:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\awdiv.c
@@ -214,24 +214,24 @@ DB0 text6 CODE >39:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\a
 DB3 text6 CODE >39:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\awdiv.c
 DB5 text6 CODE >40:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\awdiv.c
 DB9 text6 CODE >41:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\awdiv.c
-CBA text5 CODE >4:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
-CBB text5 CODE >6:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
-CBC text5 CODE >43:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
-CC0 text5 CODE >44:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
-CC4 text5 CODE >45:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
-CC6 text5 CODE >46:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
-CC8 text5 CODE >47:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
-CCD text5 CODE >50:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
-CCE text5 CODE >51:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
-D07 text4 CODE >15:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
-D07 text4 CODE >43:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
-D09 text4 CODE >45:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
-D0D text4 CODE >46:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
-D11 text4 CODE >47:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
-D16 text4 CODE >48:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
-D1B text4 CODE >49:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
-D21 text4 CODE >52:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
-D25 text4 CODE >53:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
+CC2 text5 CODE >4:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
+CC3 text5 CODE >6:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
+CC4 text5 CODE >43:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
+CC8 text5 CODE >44:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
+CCC text5 CODE >45:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
+CCE text5 CODE >46:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
+CD0 text5 CODE >47:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
+CD5 text5 CODE >50:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
+CD6 text5 CODE >51:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul8.c
+D0F text4 CODE >15:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
+D0F text4 CODE >43:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
+D11 text4 CODE >45:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
+D15 text4 CODE >46:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
+D19 text4 CODE >47:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
+D1E text4 CODE >48:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
+D23 text4 CODE >49:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
+D29 text4 CODE >52:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
+D2D text4 CODE >53:C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\Umul16.c
 E64 text3 CODE >87:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
 E66 text3 CODE >90:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
 E6B text3 CODE >92:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
@@ -257,25 +257,24 @@ FCB text3 CODE >120:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\ma
 FCE text3 CODE >120:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
 FD1 text3 CODE >120:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
 FD4 text3 CODE >123:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
-CCF text2 CODE >31:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CD0 text2 CODE >32:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CD4 text2 CODE >33:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CD6 text2 CODE >34:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CDA text2 CODE >35:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CDB text2 CODE >36:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CDB text2 CODE >37:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CDC text2 CODE >38:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CDE text2 CODE >39:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CE0 text2 CODE >40:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-CE7 text2 CODE >41:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-D26 text1 CODE >14:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-D27 text1 CODE >15:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-D29 text1 CODE >16:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-D2A text1 CODE >17:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-D34 text1 CODE >18:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-D3E text1 CODE >19:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-D49 text1 CODE >20:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
-D52 text1 CODE >20:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CD7 text2 CODE >31:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CD8 text2 CODE >32:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CDC text2 CODE >33:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CDE text2 CODE >34:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CE2 text2 CODE >35:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CE3 text2 CODE >36:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CE3 text2 CODE >37:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CE4 text2 CODE >38:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CE6 text2 CODE >39:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CE8 text2 CODE >40:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+CEF text2 CODE >41:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+D2E text1 CODE >14:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+D2F text1 CODE >15:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+D30 text1 CODE >16:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+D31 text1 CODE >17:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+D3B text1 CODE >18:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+D45 text1 CODE >19:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
+D50 text1 CODE >20:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
 D56 text1 CODE >20:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
 D5A text1 CODE >21:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\Neopixel.c
 DBA maintext CODE >38:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
@@ -311,14 +310,14 @@ E54 maintext CODE >71:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\
 E58 maintext CODE >73:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
 E5C maintext CODE >76:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
 E60 maintext CODE >77:C:\Users\parkj8494\MPLABXProjects\Neopic-sels\Neopixels.X\main.c
-CA2 clrtext CODE >1133:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-CA2 clrtext CODE >1134:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-CA3 clrtext CODE >1135:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-CA3 clrtext CODE >1136:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-CA4 clrtext CODE >1137:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-CA5 clrtext CODE >1138:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-CA6 clrtext CODE >1139:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
-CA7 clrtext CODE >1140:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.s
+CAA clrtext CODE >1133:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+CAA clrtext CODE >1134:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+CAB clrtext CODE >1135:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+CAB clrtext CODE >1136:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+CAC clrtext CODE >1137:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+CAD clrtext CODE >1138:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+CAE clrtext CODE >1139:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
+CAF clrtext CODE >1140:C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.s
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -360,27 +359,27 @@ _LATB 10D 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 _LATC 10E 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 _WPUA 20C 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 _WPUB 20D 0 ABS 0 - dist/default/production\Neopixels.X.production.o
-___sp 0 0 STACK 2 stack C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
+___sp 0 0 STACK 2 stack C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
 _main 1B74 0 CODE 0 maintext dist/default/production\Neopixels.X.production.o
 _reds 23 0 BANK0 1 bssBANK0 dist/default/production\Neopixels.X.production.o
 _tick 68 0 BANK0 1 dataBANK0 dist/default/production\Neopixels.X.production.o
 btemp 7E 0 ABS 0 - dist/default/production\Neopixels.X.production.o
-start 1006 0 CODE 0 init C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
+start 1006 0 CODE 0 init C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
 __size_of___awdiv 0 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 __size_of_main 0 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 ?___wmul 70 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 __LidataBANK0 0 0 ABS 0 idataBANK0 -
 __Hpowerup 0 0 CODE 0 powerup -
-intlevel0 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
-intlevel1 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
-intlevel2 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
-intlevel3 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
-intlevel4 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
-intlevel5 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
+intlevel0 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
+intlevel1 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
+intlevel2 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
+intlevel3 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
+intlevel4 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
+intlevel5 0 0 ENTRY 0 functab C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
 ___bmul@multiplicand 70 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 wtemp0 7E 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 __Hfunctab 0 0 ENTRY 0 functab -
-_neopixel_colour_send 199E 0 CODE 0 text2 dist/default/production\Neopixels.X.production.o
+_neopixel_colour_send 19AE 0 CODE 0 text2 dist/default/production\Neopixels.X.production.o
 ___awdiv@sign 76 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 __Hclrtext 0 0 ABS 0 clrtext -
 ___wmul@multiplicand 72 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
@@ -394,28 +393,28 @@ _ANSELB 18D 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 _ANSELC 18E 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 ___awdiv@dividend 72 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 __size_of_OSC_config 0 0 ABS 0 - dist/default/production\Neopixels.X.production.o
-__end_of___bmul 199E 0 CODE 0 text5 dist/default/production\Neopixels.X.production.o
-__end_of___wmul 1A4C 0 CODE 0 text4 dist/default/production\Neopixels.X.production.o
+__end_of___bmul 19AE 0 CODE 0 text5 dist/default/production\Neopixels.X.production.o
+__end_of___wmul 1A5C 0 CODE 0 text4 dist/default/production\Neopixels.X.production.o
 __Lmaintext 0 0 ABS 0 maintext -
 ___bmul@multiplier 73 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 ___awdiv@divisor 70 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 __end_of___awdiv 1B74 0 CODE 0 text6 dist/default/production\Neopixels.X.production.o
 __end_of_neopixel_fill_a 1AB6 0 CODE 0 text1 dist/default/production\Neopixels.X.production.o
 neopixel_fill_a@blue 75 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
-neopixel_fill_a@leds 78 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
+neopixel_fill_a@leds 77 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 _OPTION_REG 95 0 ABS 0 - dist/default/production\Neopixels.X.production.o
-___stackhi 23EF 0 ABS 0 - C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
-___stacklo 20CD 0 ABS 0 - C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
-neopixel_fill_a@ledNum 79 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
+___stackhi 23EF 0 ABS 0 - C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
+___stacklo 20CD 0 ABS 0 - C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
+neopixel_fill_a@ledNum 78 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 start_initialization 1FAA 0 CODE 0 cinit dist/default/production\Neopixels.X.production.o
 _OSCCON 99 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 _PLLRDY 4D6 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 _TRISCbits 8E 0 ABS 0 - dist/default/production\Neopixels.X.production.o
-clear_ram0 1944 0 CODE 0 clrtext dist/default/production\Neopixels.X.production.o
+clear_ram0 1954 0 CODE 0 clrtext dist/default/production\Neopixels.X.production.o
 __pcstackBANK0 50 0 BANK0 1 cstackBANK0 dist/default/production\Neopixels.X.production.o
 neopixel_colour_send@colour 71 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
-_neopixel_fill_a 1A4C 0 CODE 0 text1 dist/default/production\Neopixels.X.production.o
-___int_sp 0 0 STACK 2 stack C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
+_neopixel_fill_a 1A5C 0 CODE 0 text1 dist/default/production\Neopixels.X.production.o
+___int_sp 0 0 STACK 2 stack C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
 __Hbank0 0 0 ABS 0 bank0 -
 __Hbank1 0 0 ABS 0 bank1 -
 __Hbank2 0 0 ABS 0 bank2 -
@@ -539,8 +538,8 @@ __Lsfr7 0 0 ABS 0 sfr7 -
 __Lsfr8 0 0 ABS 0 sfr8 -
 __Lsfr9 0 0 ABS 0 sfr9 -
 __Ltext 0 0 ABS 0 text -
-___bmul 1974 0 CODE 0 text5 dist/default/production\Neopixels.X.production.o
-___wmul 1A0E 0 CODE 0 text4 dist/default/production\Neopixels.X.production.o
+___bmul 1984 0 CODE 0 text5 dist/default/production\Neopixels.X.production.o
+___wmul 1A1E 0 CODE 0 text4 dist/default/production\Neopixels.X.production.o
 __LcstackBANK0 0 0 ABS 0 cstackBANK0 -
 __HcstackCOMMON 0 0 ABS 0 cstackCOMMON -
 __S0 1000 0 ABS 0 - -
@@ -550,7 +549,7 @@ hsvtorgb@fpart 5C 0 BANK0 1 cstackBANK0 dist/default/production\Neopixels.X.prod
 _greens A0 0 BANK1 1 bssBANK1 dist/default/production\Neopixels.X.production.o
 __Lintentry 1006 0 CODE 0 intentry -
 hsvtorgb@region 5B 0 BANK0 1 cstackBANK0 dist/default/production\Neopixels.X.production.o
-reset_vec 1000 0 CODE 0 reset_vec C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsgfg.o
+reset_vec 1000 0 CODE 0 reset_vec C:\Users\PARKJ8~1\AppData\Local\Temp\xcAsb80.o
 __size_of_neopixel_fill_a 0 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 __pdataBANK0 68 0 BANK0 1 dataBANK0 dist/default/production\Neopixels.X.production.o
 __size_of___bmul 0 0 ABS 0 - dist/default/production\Neopixels.X.production.o
@@ -583,7 +582,7 @@ __Lbank30 0 0 BANK30 1 bank30 -
 __Lbank31 0 0 BANK31 1 bank31 -
 __pmaintext 1B74 0 CODE 0 maintext dist/default/production\Neopixels.X.production.o
 __Lbigram 0 0 ABS 0 bigram -
-_UBMP4_config 19D0 0 CODE 0 text7 dist/default/production\Neopixels.X.production.o
+_UBMP4_config 19E0 0 CODE 0 text7 dist/default/production\Neopixels.X.production.o
 _ticks_left 20 0 BANK0 1 bssBANK0 dist/default/production\Neopixels.X.production.o
 __Lcommon 0 0 ABS 0 common -
 ___wmul@multiplier 70 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
@@ -599,27 +598,27 @@ __Lend_init 1008 0 CODE 0 end_init -
 __size_of_hsvtorgb 0 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 __size_of_UBMP4_config 0 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 __LcstackCOMMON 0 0 ABS 0 cstackCOMMON -
-__end_of_neopixel_colour_send 19D0 0 CODE 0 text2 dist/default/production\Neopixels.X.production.o
+__end_of_neopixel_colour_send 19E0 0 CODE 0 text2 dist/default/production\Neopixels.X.production.o
 end_of_initialization 1FFA 0 CODE 0 cinit dist/default/production\Neopixels.X.production.o
 __Hintentry 1006 0 CODE 0 intentry -
 __Lstrings 0 0 ABS 0 strings -
 ___awdiv@quotient 77 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 ?___awdiv 70 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
 __Hreset_vec 1006 0 CODE 0 reset_vec -
-_OSC_config 195C 0 CODE 0 text8 dist/default/production\Neopixels.X.production.o
+_OSC_config 196C 0 CODE 0 text8 dist/default/production\Neopixels.X.production.o
 __HbssBANK0 0 0 ABS 0 bssBANK0 -
 __HbssBANK1 0 0 ABS 0 bssBANK1 -
 __HbssBANK2 0 0 ABS 0 bssBANK2 -
 neopixel_fill_a@red 73 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
-__ptext1 1A4C 0 CODE 0 text1 dist/default/production\Neopixels.X.production.o
-__ptext2 199E 0 CODE 0 text2 dist/default/production\Neopixels.X.production.o
+__ptext1 1A5C 0 CODE 0 text1 dist/default/production\Neopixels.X.production.o
+__ptext2 19AE 0 CODE 0 text2 dist/default/production\Neopixels.X.production.o
 __ptext3 1CC8 0 CODE 0 text3 dist/default/production\Neopixels.X.production.o
-__ptext4 1A0E 0 CODE 0 text4 dist/default/production\Neopixels.X.production.o
-__ptext5 1974 0 CODE 0 text5 dist/default/production\Neopixels.X.production.o
+__ptext4 1A1E 0 CODE 0 text4 dist/default/production\Neopixels.X.production.o
+__ptext5 1984 0 CODE 0 text5 dist/default/production\Neopixels.X.production.o
 __ptext6 1AB6 0 CODE 0 text6 dist/default/production\Neopixels.X.production.o
-__ptext7 19D0 0 CODE 0 text7 dist/default/production\Neopixels.X.production.o
-__ptext8 195C 0 CODE 0 text8 dist/default/production\Neopixels.X.production.o
-__end_of_UBMP4_config 1A0E 0 CODE 0 text7 dist/default/production\Neopixels.X.production.o
+__ptext7 19E0 0 CODE 0 text7 dist/default/production\Neopixels.X.production.o
+__ptext8 196C 0 CODE 0 text8 dist/default/production\Neopixels.X.production.o
+__end_of_UBMP4_config 1A1E 0 CODE 0 text7 dist/default/production\Neopixels.X.production.o
 __Lpowerup 0 0 CODE 0 powerup -
 __Leeprom_data 0 0 EEDATA 3 eeprom_data -
 __Lreset_vec 1000 0 CODE 0 reset_vec -
@@ -627,11 +626,11 @@ __end_of__initialization 1FFA 0 CODE 0 cinit dist/default/production\Neopixels.X
 _hsvtorgb 1CC8 0 CODE 0 text3 dist/default/production\Neopixels.X.production.o
 _rainbowCycle 0 0 ABS 0 - dist/default/production\Neopixels.X.production.o
 __Lfunctab 0 0 ENTRY 0 functab -
-__pidataBANK0 1950 0 CODE 0 idataBANK0 dist/default/production\Neopixels.X.production.o
+__pidataBANK0 1960 0 CODE 0 idataBANK0 dist/default/production\Neopixels.X.production.o
 __Lclrtext 0 0 ABS 0 clrtext -
 __end_of_hsvtorgb 1FAA 0 CODE 0 text3 dist/default/production\Neopixels.X.production.o
 __pcstackCOMMON 70 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
-__end_of_OSC_config 1974 0 CODE 0 text8 dist/default/production\Neopixels.X.production.o
+__end_of_OSC_config 1984 0 CODE 0 text8 dist/default/production\Neopixels.X.production.o
 __Hend_init 100C 0 CODE 0 end_init -
 __end_of_main 1CC8 0 CODE 0 maintext dist/default/production\Neopixels.X.production.o
 neopixel_fill_a@green 74 0 COMMON 1 cstackCOMMON dist/default/production\Neopixels.X.production.o
@@ -675,22 +674,22 @@ _left_shift 22 0 BANK0 1 bssBANK0 dist/default/production\Neopixels.X.production
 # All other numeric quantities are in decimal.
 %SEGMENTS
 cinit 0 FD5 1FAA 2B 2
-text1 0 D26 1A4C 35 2
-text2 0 CCF 199E 19 2
+text1 0 D2E 1A5C 2D 2
+text2 0 CD7 19AE 19 2
 text3 0 E64 1CC8 171 2
-text4 0 D07 1A0E 1F 2
-text5 0 CBA 1974 15 2
+text4 0 D0F 1A1E 1F 2
+text5 0 CC2 1984 15 2
 text6 0 D5B 1AB6 5F 2
-text7 0 CE8 19D0 1F 2
-text8 0 CAE 195C C 2
+text7 0 CF0 19E0 1F 2
+text8 0 CB6 196C C 2
 maintext 0 DBA 1B74 AA 2
 cstackCOMMON 1 70 70 E 1
 reset_vec 0 800 1000 6 2
 bssBANK0 1 20 20 4E 1
 bssBANK1 1 A0 A0 2D 1
 bssBANK2 1 120 120 2D 1
-idataBANK0 0 CA8 1950 6 2
-clrtext 0 CA2 1944 6 2
+idataBANK0 0 CB0 1960 6 2
+clrtext 0 CAA 1954 6 2
 # %NOTES Section
 # This section contains data of all the note-psects.  The beginning of the section
 # is indicated by %NOTES. The first line indicates the name and decimal

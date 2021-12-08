@@ -459,9 +459,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _blue `*uc ~T0 @X0 1 r4 ]
 [f ]
 "15
-[; ;Neopixel.c: 15:     int ledNum = 0;
-[v _ledNum `i ~T0 @X0 1 a ]
-[e = _ledNum -> 0 `i ]
+[; ;Neopixel.c: 15:     unsigned char ledNum = 0;
+[v _ledNum `uc ~T0 @X0 1 a ]
+[e = _ledNum -> -> 0 `i `uc ]
 "16
 [; ;Neopixel.c: 16:     for(; ledNum != leds; ledNum++) {
 {
@@ -470,19 +470,19 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 "17
 [; ;Neopixel.c: 17:         neopixel_colour_send(green[ledNum]);
-[e ( _neopixel_colour_send (1 *U + _green * -> _ledNum `x -> -> # *U _green `i `x ]
+[e ( _neopixel_colour_send (1 *U + _green * -> _ledNum `ux -> -> # *U _green `ui `ux ]
 "18
 [; ;Neopixel.c: 18:         neopixel_colour_send(red[ledNum]);
-[e ( _neopixel_colour_send (1 *U + _red * -> _ledNum `x -> -> # *U _red `i `x ]
+[e ( _neopixel_colour_send (1 *U + _red * -> _ledNum `ux -> -> # *U _red `ui `ux ]
 "19
 [; ;Neopixel.c: 19:         neopixel_colour_send(blue[ledNum]);
-[e ( _neopixel_colour_send (1 *U + _blue * -> _ledNum `x -> -> # *U _blue `i `x ]
+[e ( _neopixel_colour_send (1 *U + _blue * -> _ledNum `ux -> -> # *U _blue `ui `ux ]
 "20
 [; ;Neopixel.c: 20:     }
 }
-[e ++ _ledNum -> 1 `i ]
+[e ++ _ledNum -> -> 1 `i `uc ]
 [e :U 331 ]
-[e $ != _ledNum -> _leds `i 328  ]
+[e $ != -> _ledNum `i -> _leds `i 328  ]
 [e :U 329 ]
 }
 "21

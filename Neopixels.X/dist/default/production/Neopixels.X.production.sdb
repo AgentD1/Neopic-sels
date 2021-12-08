@@ -136,13 +136,13 @@
 {
 [v neopixel_fill_a@leds leds `uc  1 a 1 wreg ]
 "15
-[v neopixel_fill_a@ledNum ledNum `i  1 a 2 9 ]
+[v neopixel_fill_a@ledNum ledNum `uc  1 a 1 8 ]
 "14
 [v neopixel_fill_a@leds leds `uc  1 a 1 wreg ]
 [v neopixel_fill_a@red red `*.4uc  1 p 1 3 ]
 [v neopixel_fill_a@green green `*.4uc  1 p 1 4 ]
 [v neopixel_fill_a@blue blue `*.5uc  1 p 1 5 ]
-[v neopixel_fill_a@leds leds `uc  1 a 1 8 ]
+[v neopixel_fill_a@leds leds `uc  1 a 1 7 ]
 "21
 } 0
 "31

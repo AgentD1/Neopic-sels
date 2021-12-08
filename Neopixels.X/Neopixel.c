@@ -12,7 +12,7 @@
 void neopixel_colour_send(unsigned char colour);
 
 void neopixel_fill_a(unsigned char leds, unsigned char red[], unsigned char green[], unsigned char blue[]) {
-    int ledNum = 0;
+    unsigned char ledNum = 0;
     for(; ledNum != leds; ledNum++) {
         neopixel_colour_send(green[ledNum]);
         neopixel_colour_send(red[ledNum]);
