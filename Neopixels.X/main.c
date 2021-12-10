@@ -20,6 +20,9 @@
 
 #include    "Neopixel.h"
 
+
+#define LED_NUM 45
+
 void rainbowCycle(void);
 void solidColour(void);
 void pulsingSolidColour(void);
@@ -37,9 +40,9 @@ void (*colorFunctions[])(void) = { rainbowCycle, solidColour, pulsingSolidColour
 int tick = 1;
 int ticks_left = 0;
 
-unsigned char reds[45];
-unsigned char greens[45];
-unsigned char blues[45];
+unsigned char reds[LED_NUM];
+unsigned char greens[LED_NUM];
+unsigned char blues[LED_NUM];
 
 int main(void) {
     // Configure oscillator and I/O ports. These functions run once at start-up.
@@ -50,19 +53,15 @@ int main(void) {
     ADC_select_channel(ANH2);
     
     
-    int red = 0xFF;
-    int green = 0;
-    int blue = 0;
-    
     // Code in this while loop runs repeatedly.
     while(1) {
-        neopixel_fill_a(45, reds, greens, blues);
+        neopixel_fill_a(LED_NUM, reds, greens, blues);
         
         if(SW1 == 0 && ticks_left == 0) {
             functionIndex++;
             functionIndex %= numFunctions;
             
-            for(unsigned char i = 0; i < 45; i++) {
+            for(unsigned char i = 0; i < LED_NUM; i++) {
                 reds[i] = 0;
                 greens[i] = 0;
                 blues[i] = 0;
@@ -107,7 +106,7 @@ void rainbowCycle() {
 
     unsigned char pot = ADC_read();
     
-    for(unsigned char i = 0; i < 45; i++) {
+    for(unsigned char i = 0; i < LED_NUM; i++) {
         if(reversed) {
             hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick) + (i * 2), 255, pot);
         } else {
@@ -145,7 +144,7 @@ void solidColour() {
 
     unsigned char pot = ADC_read();
     
-    for(unsigned char i = 0; i < 45; i++) {
+    for(unsigned char i = 0; i < LED_NUM; i++) {
         hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, pot);
         
         reds[i] >>= left_shift;
@@ -192,7 +191,7 @@ void pulsingSolidColour() {
         }
     }
 
-    for(unsigned char i = 0; i < 45; i++) {
+    for(unsigned char i = 0; i < LED_NUM; i++) {
         hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, pulsingTick);
         
         reds[i] >>= left_shift;
@@ -223,7 +222,7 @@ void debug() {
 
     __delay_ms(4);
 
-    for(unsigned char i = 0; i < 45; i++) {
+    for(unsigned char i = 0; i < LED_NUM; i++) {
         hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, 255);
         
         reds[i] >>= left_shift;
@@ -235,7 +234,7 @@ void debug() {
     blues[2] = 0;
 }
 
-float redsf[45], greensf[45], bluesf[45];
+float redsf[LED_NUM], greensf[LED_NUM], bluesf[LED_NUM];
 
 void randomLightup() {
     if(ticks_left == 0) {
@@ -253,7 +252,7 @@ void randomLightup() {
     
     unsigned char reduction = 2;
 
-    for(unsigned char i = 0; i < 45; i++) {
+    for(unsigned char i = 0; i < LED_NUM; i++) {
 //        if(reds[i] > reduction) {
 //            reds[i] -= reduction;
 //        } else if(reds[i] > 0) {
