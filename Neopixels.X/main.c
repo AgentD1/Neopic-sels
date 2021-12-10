@@ -14,6 +14,7 @@
 #include    "xc.h"              // Microchip XC8 compiler include file
 #include    "stdint.h"          // Include integer definitions
 #include    "stdbool.h"         // Include Boolean (true/false) definitions
+#include <stdlib.h>
 
 #include    "UBMP4.h"           // Include UBMP4 constants and functions
 
@@ -24,16 +25,14 @@ void solidColour(void);
 void pulsingSolidColour(void);
 void debug(void);
 void randomLightup(void);
-
-void init_genrand(unsigned long s);
-unsigned char genrand_char(void);
+void potentiometerReading(void);
 
 void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned char h, unsigned char s, unsigned char v);
 void setCode(unsigned char number, unsigned char *r1, unsigned char *g1, unsigned char *b1, unsigned char *r2, unsigned char *g2, unsigned char *b2, unsigned char *r3, unsigned char *g3);
 
-unsigned char numFunctions = 5;
+unsigned char numFunctions = 6;
 unsigned char functionIndex = 0;
-void (*colorFunctions[])(void) = { rainbowCycle, solidColour, pulsingSolidColour, debug, randomLightup };
+void (*colorFunctions[])(void) = { rainbowCycle, solidColour, pulsingSolidColour, debug, randomLightup, potentiometerReading };
 
 int tick = 1;
 int ticks_left = 0;
@@ -46,6 +45,10 @@ int main(void) {
     // Configure oscillator and I/O ports. These functions run once at start-up.
     OSC_config();               // Configure internal oscillator for 48 MHz
     UBMP4_config();             // Configure on-board UBMP4 I/O devices
+    ADC_config();
+    
+    ADC_select_channel(ANH2);
+    
     
     int red = 0xFF;
     int green = 0;
@@ -102,11 +105,13 @@ void rainbowCycle() {
 
     __delay_ms(4);
 
+    unsigned char pot = ADC_read();
+    
     for(unsigned char i = 0; i < 45; i++) {
         if(reversed) {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick) + (i * 2), 255, 255);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick) + (i * 2), 255, pot);
         } else {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick) + (i * 2), 255, 255);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick) + (i * 2), 255, pot);
         }
         reds[i] >>= left_shift;
         greens[i] >>= left_shift;
@@ -138,8 +143,10 @@ void solidColour() {
 
     __delay_ms(4);
 
+    unsigned char pot = ADC_read();
+    
     for(unsigned char i = 0; i < 45; i++) {
-        hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, 255);
+        hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, pot);
         
         reds[i] >>= left_shift;
         greens[i] >>= left_shift;
@@ -270,8 +277,32 @@ void randomLightup() {
         reds[i] = redsf[i];
         greens[i] = greensf[i];
         blues[i] = bluesf[i];
+        if(greens[i] == 0 && greensf[i] > 0.2) {
+            reds[i] = 0;
+            redsf[i] = 0;
+            greens[i] = 0;
+            greensf[i] = 0;
+            blues[i] = 0;
+            bluesf[i] = 0;
+        }
+        if(reds[i] == 0 && redsf[i] > 0.2) {
+            reds[i] = 0;
+            redsf[i] = 0;
+            greens[i] = 0;
+            greensf[i] = 0;
+            blues[i] = 0;
+            bluesf[i] = 0;
+        }
+        if(blues[i] == 0 && bluesf[i] > 0.2) {
+            reds[i] = 0;
+            redsf[i] = 0;
+            greens[i] = 0;
+            greensf[i] = 0;
+            blues[i] = 0;
+            bluesf[i] = 0;
+        }
         
-        if(genrand_char() == 255) {
+        if((char)(rand()) == 255) {
             hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, 255);
             redsf[i] = reds[i];
             greensf[i] = greens[i];
@@ -282,6 +313,12 @@ void randomLightup() {
     if(tick % 8 == 0) {
         hue++;
     }
+}
+
+void potentiometerReading() {
+    setCode(ADC_read(), &reds[0], &greens[0], &blues[0], &reds[1], &greens[1], &blues[1], &reds[2], &greens[2]);
+    
+    __delay_ms(10);
 }
 
 void setCode(unsigned char number, unsigned char *r1, unsigned char *g1, unsigned char *b1, unsigned char *r2, unsigned char *g2, unsigned char *b2, unsigned char *r3, unsigned char *g3) {
@@ -353,70 +390,20 @@ void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned cha
             break;
     }
 }
+/*
+unsigned long randState = 6666;
 
-// http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/MT2002/CODES/MTARCOK/mt19937ar-cok.c
-#define N 18
-#define M 12
-#define MATRIX_A 0x9908b0dfUL   /* constant vector a */
-#define UMASK 0x80000000UL /* most significant w-r bits */
-#define LMASK 0x7fffffffUL /* least significant r bits */
-#define MIXBITS(u,v) ( ((u) & UMASK) | ((v) & LMASK) )
-#define TWIST(u,v) ((MIXBITS(u,v) >> 1) ^ ((v)&1UL ? MATRIX_A : 0UL))
-
-static unsigned long state[N]; /* the array for the state vector  */
-static int left = 1;
-static int initf = 0;
-static unsigned long *next;
-
-/* initializes state[N] with a seed */
-void init_genrand(unsigned long s) {
-    int j;
-    state[0]= s & 0xffffffffUL;
-    for (j=1; j<N; j++) {
-        state[j] = (1812433253UL * (state[j-1] ^ (state[j-1] >> 30)) + j); 
-        /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
-        /* In the previous versions, MSBs of the seed affect   */
-        /* only MSBs of the array state[].                        */
-        /* 2002/01/09 modified by Makoto Matsumoto             */
-        state[j] &= 0xffffffffUL;  /* for >32 bit machines */
-    }
-    left = 1; initf = 1;
-}
-
-static void next_state(void) {
-    unsigned long *p=state;
-    int j;
-
-    /* if init_genrand() has not been called, */
-    /* a default initial seed is used         */
-    if (initf==0) init_genrand(5489UL);
-
-    left = N;
-    next = state;
+unsigned long rand() {
+    const unsigned long A = 48271;
     
-    for (j=N-M+1; --j; p++) 
-        *p = p[M] ^ TWIST(p[0], p[1]);
-
-    for (j=M; --j; p++) 
-        *p = p[M-N] ^ TWIST(p[0], p[1]);
-
-    *p = p[M-N] ^ TWIST(p[0], state[0]);
-}
-
-/* generates a random number on [0,0xffffffff]-interval */
-unsigned char genrand_char(void)
-{
-    unsigned long y;
-
-    if (--left == 0) next_state();
-    y = *next++;
-
-    /* Tempering */
-    y ^= (y >> 11);
-    y ^= (y << 7) & 0x9d2c5680UL;
-    y ^= (y << 15) & 0xefc60000UL;
-    y ^= (y >> 18);
-
-    return (unsigned char)y;
-}
-
+    unsigned long low = (randState & 0x7fff) * A;
+    unsigned long high = (randState >> 15) * A;
+    
+    unsigned long x = low + ((high & 0xffff) << 15) + (high >> 16);
+    
+    x = (x & 0x7fffffff) + (x >> 31);
+    
+    randState = x;
+    
+    return x;
+}*/
