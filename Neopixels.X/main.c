@@ -44,6 +44,8 @@ unsigned char reds[LED_NUM];
 unsigned char greens[LED_NUM];
 unsigned char blues[LED_NUM];
 
+unsigned char decodedData;
+
 int main(void) {
     // Configure oscillator and I/O ports. These functions run once at start-up.
     OSC_config();               // Configure internal oscillator for 48 MHz
@@ -53,6 +55,42 @@ int main(void) {
     ADC_select_channel(ANH2);
     
     
+    
+    TRISC &= 0b11011111;
+            
+    while(1) {
+        LED4 = H3IN;
+    }
+    
+    /*
+    void doAlittleTrolling() {
+        
+        while (cap == true) {
+            
+            Legromp++;
+            if (legromp > cap) {
+                
+                eat.exe;
+                        
+                heal.player.sheesh;
+                Get drake;
+                playerGun = ODIN;
+                
+                Sage = GOD TIER;
+                
+                Bucky.update = buff;
+                If (Bucky.update = true) {
+                    
+                    Meikai = quaduple.ace
+                }
+                Sheesh
+            }
+            
+        }
+        
+    }
+     * */
+    /*
     // Code in this while loop runs repeatedly.
     while(1) {
         neopixel_fill_a(LED_NUM, reds, greens, blues);
@@ -80,7 +118,41 @@ int main(void) {
         if(SW1 == 0 && SW2 == 0) {
             RESET();
         }
+    }*/
+}
+
+bool receive() {
+    while(H3IN);
+    __delay_ms(40);
+    __delay_us(550);
+    unsigned char signal = 0;
+    for(unsigned char i = 0; i < 8; i++) {
+        if(!H3IN) {
+            signal |= 1;
+            __delay_us(1120);
+        }
+        signal <<= 1;
+        __delay_us(1120);
     }
+    
+    unsigned char antisignal = 0;
+    for(unsigned char i = 0; i < 8; i++) {
+        if(!H3IN) {
+            antisignal |= 1;
+            __delay_us(1120);
+        }
+        antisignal <<= 1;
+        __delay_us(1120);
+    }
+    
+    if(~antisignal != signal) {
+        decodedData = 0;
+        return false;
+    }
+    
+    decodedData = signal;
+    
+    return true;
 }
 
 bool reversed = false;
