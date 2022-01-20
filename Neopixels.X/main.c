@@ -30,6 +30,8 @@ void debug(void);
 void randomLightup(void);
 void potentiometerReading(void);
 
+bool receive(void);
+
 void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned char h, unsigned char s, unsigned char v);
 void setCode(unsigned char number, unsigned char *r1, unsigned char *g1, unsigned char *b1, unsigned char *r2, unsigned char *g2, unsigned char *b2, unsigned char *r3, unsigned char *g3);
 
@@ -46,6 +48,8 @@ unsigned char blues[LED_NUM];
 
 unsigned char decodedData;
 
+bool data[32];
+
 int main(void) {
     // Configure oscillator and I/O ports. These functions run once at start-up.
     OSC_config();               // Configure internal oscillator for 48 MHz
@@ -55,11 +59,46 @@ int main(void) {
     ADC_select_channel(ANH2);
     
     
-    
     TRISC &= 0b11011111;
             
     while(1) {
-        LED4 = H3IN;
+        //LED1 = H3IN;
+        
+        if(receive()) {
+            LED1 = true;
+        } else {
+            LED1 = false;
+            __delay_ms(500);
+            LED1 = true;
+            __delay_ms(500);
+            LED1 = false;
+            __delay_ms(500);
+            LED1 = true;
+            __delay_ms(500);
+            LED1 = false;
+            __delay_ms(500);
+            LED1 = true;
+            __delay_ms(500);
+        }
+        
+        for(unsigned char i = 0; i < 8; i++) {
+            LED2 = decodedData & 0b00000001 != 0;
+            LED3 = decodedData & 0b00000010 != 0;
+            LED4 = decodedData & 0b00000100 != 0;
+            LED5 = decodedData & 0b00001000 != 0;
+            
+            __delay_ms(500);
+            
+            LED2 = decodedData & 0b00010000 != 0;
+            LED3 = decodedData & 0b00100000 != 0;
+            LED4 = decodedData & 0b01000000 != 0;
+            LED5 = decodedData & 0b10000000 != 0;
+            
+            __delay_ms(500);
+        }
+        
+        LED1 = LED2 = LED3 = LED4 = LED5 = 0;
+        
     }
     
     /*
@@ -123,9 +162,76 @@ int main(void) {
 
 bool receive() {
     while(H3IN);
+    while(!H3IN);
+    while(H3IN);
+    
+    __delay_us(560);
+    
+    uint8_t dataIndex = 0;
+    uint8_t oneNumber = 0;
+    for (uint8_t i = 0; i != 255; i++) {
+        bool p = H3IN;
+        if(p == 0) {
+            if(oneNumber == 0) {
+                continue;
+            }
+            data[dataIndex] = oneNumber != 1;
+            oneNumber = 0;
+            dataIndex++;
+            if(dataIndex == 32) {
+                break;
+            }
+        } else {
+            oneNumber++;
+        }
+        __delay_us(560);
+    }
+    dataIndex = ~dataIndex;
+    
+    LED1 = !LED1;
+    LED3 = dataIndex & 0b00010000 != 0;
+    LED4 = dataIndex & 0b00100000 != 0;
+    LED5 = dataIndex & 0b01000000 != 0;
+    LED6 = dataIndex & 0b10000000 != 0;
+    __delay_ms(250);
+    
+    while(SW2 == 1 && SW3 == 1);
+    
+    __delay_ms(250);
+    
+    unsigned char i = 0;
+    
+    while(true) {
+        LED1 = !LED1;
+        LED3 = data[i];
+        LED4 = data[i+1];
+        LED5 = data[i+2];
+        LED6 = data[i+3];
+        __delay_ms(250);
+        while(SW2 == 1 && SW3 == 1);
+        if(SW3 == 0) {
+            i -= 4;
+        } else {
+            i += 4;
+        }
+    }
+    
+    return true;
+    
+    /*
     __delay_ms(40);
     __delay_us(550);
     unsigned char signal = 0;
+    
+    for(unsigned char i = 0; i < 8; i++) {
+        if(!H3IN) {
+            signal |= 1;
+            __delay_us(1120);
+        }
+        signal <<= 1;
+        __delay_us(1120);
+    }
+    
     for(unsigned char i = 0; i < 8; i++) {
         if(!H3IN) {
             signal |= 1;
@@ -143,16 +249,17 @@ bool receive() {
         }
         antisignal <<= 1;
         __delay_us(1120);
-    }
+    }*/
     
+    /*
     if(~antisignal != signal) {
-        decodedData = 0;
+        decodedData = signal;
         return false;
     }
     
     decodedData = signal;
     
-    return true;
+    return true;*/
 }
 
 bool reversed = false;
