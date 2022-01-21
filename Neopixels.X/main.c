@@ -48,7 +48,7 @@ unsigned char blues[LED_NUM];
 
 unsigned char decodedData;
 
-bool data[32];
+bool dataArray[32];
 
 int main(void) {
     // Configure oscillator and I/O ports. These functions run once at start-up.
@@ -62,8 +62,9 @@ int main(void) {
     TRISC &= 0b11011111;
             
     while(1) {
+        receive();
         //LED1 = H3IN;
-        
+        /*
         if(receive()) {
             LED1 = true;
         } else {
@@ -97,7 +98,7 @@ int main(void) {
             __delay_ms(500);
         }
         
-        LED1 = LED2 = LED3 = LED4 = LED5 = 0;
+        LED1 = LED2 = LED3 = LED4 = LED5 = 0;*/
         
     }
     
@@ -161,6 +162,7 @@ int main(void) {
 }
 
 bool receive() {
+    LED1 = 0;
     while(H3IN);
     while(!H3IN);
     while(H3IN);
@@ -175,44 +177,131 @@ bool receive() {
             if(oneNumber == 0) {
                 continue;
             }
-            data[dataIndex] = oneNumber != 1;
+            dataArray[dataIndex] = oneNumber != 1;
             oneNumber = 0;
             dataIndex++;
             if(dataIndex == 32) {
                 break;
             }
+            __delay_us(559);
         } else {
             oneNumber++;
+            __delay_us(560);
         }
-        __delay_us(560);
     }
-    dataIndex = ~dataIndex;
     
-    LED1 = !LED1;
-    LED3 = dataIndex & 0b00010000 != 0;
-    LED4 = dataIndex & 0b00100000 != 0;
-    LED5 = dataIndex & 0b01000000 != 0;
-    LED6 = dataIndex & 0b10000000 != 0;
-    __delay_ms(250);
+    uint8_t address, notAddress, data, notData;
     
-    while(SW2 == 1 && SW3 == 1);
+    for(uint8_t i = 0; i < 8; i++) {
+        address |= dataArray[i];
+        if(i != 7) address <<= 1;
+    }
+    for(uint8_t i = 0; i < 8; i++) {
+        notAddress |= dataArray[i + 8];
+        if(i != 7) notAddress <<= 1;
+    }
+    for(uint8_t i = 0; i < 8; i++) {
+        data |= dataArray[i + 16];
+        if(i != 7) data <<= 1;
+    }
+    for(uint8_t i = 0; i < 8; i++) {
+        notData |= dataArray[i + 24];
+        if(i != 7) notData <<= 1;
+    }
     
-    __delay_ms(250);
+    
+    if(address != 0 || address ^ notAddress != 0xFF) {
+        LED4 = 1;
+        return false;
+    }
+    
+    if(data ^ notData != 0xFF) {
+        LED3 = 1;
+        //return false;
+    }
+    
+    __delay_ms(500);
+    decodedData = data;
+    
+    for(uint8_t i = 0; i < 8; i++) {
+        reds[i] = dataArray[i + 16] == 0 ? 0 : 128;
+        greens[i] = 128 - reds[i];
+        blues[i] = 0;
+    }
+    
+    neopixel_fill_a(8, reds, greens, blues);
     
     unsigned char i = 0;
     
+    LED1 = 0;
+    
     while(true) {
         LED1 = !LED1;
-        LED3 = data[i];
-        LED4 = data[i+1];
-        LED5 = data[i+2];
-        LED6 = data[i+3];
+        switch(i) {
+            case 0:
+                LED3 = (address & 0b00000001) != 0;
+                LED4 = (address & 0b00000010) != 0;
+                LED5 = (address & 0b00000100) != 0;
+                LED6 = (address & 0b00001000) != 0;
+                break;
+            case 1:
+                LED3 = (address & 0b00010000) != 0;
+                LED4 = (address & 0b00100000) != 0;
+                LED5 = (address & 0b01000000) != 0;
+                LED6 = (address & 0b10000000) != 0;
+                break;
+            case 2:
+                LED3 = (notAddress & 0b00000001) != 0;
+                LED4 = (notAddress & 0b00000010) != 0;
+                LED5 = (notAddress & 0b00000100) != 0;
+                LED6 = (notAddress & 0b00001000) != 0;
+                break;
+            case 3:
+                LED3 = (notAddress & 0b00010000) != 0;
+                LED4 = (notAddress & 0b00100000) != 0;
+                LED5 = (notAddress & 0b01000000) != 0;
+                LED6 = (notAddress & 0b10000000) != 0;
+                break;
+            case 4:
+                LED3 = (data & 0b00000001) != 0;
+                LED4 = (data & 0b00000010) != 0;
+                LED5 = (data & 0b00000100) != 0;
+                LED6 = (data & 0b00001000) != 0;
+                break;
+            case 5:
+                LED3 = (data & 0b00010000) != 0;
+                LED4 = (data & 0b00100000) != 0;
+                LED5 = (data & 0b01000000) != 0;
+                LED6 = (data & 0b10000000) != 0;
+                break;
+            case 6:
+                LED3 = (notData & 0b00000001) != 0;
+                LED4 = (notData & 0b00000010) != 0;
+                LED5 = (notData & 0b00000100) != 0;
+                LED6 = (notData & 0b00001000) != 0;
+                break;
+            case 7:
+                LED3 = (notData & 0b00010000) != 0;
+                LED4 = (notData & 0b00100000) != 0;
+                LED5 = (notData & 0b01000000) != 0;
+                LED6 = (notData & 0b10000000) != 0;
+                break;
+        }
+        
         __delay_ms(250);
-        while(SW2 == 1 && SW3 == 1);
-        if(SW3 == 0) {
-            i -= 4;
+        while(SW2 == 1 && SW3 == 1 && SW4 == 1);
+        if(SW2 == 0) {
+            i--;
+            if(i == 255) {
+                i = 7;
+            }
+        } else if(SW3 == 0) {
+            i++;
+            if(i == 8) {
+                i = 0;
+            }
         } else {
-            i += 4;
+            return true;
         }
     }
     
