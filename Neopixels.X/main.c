@@ -21,7 +21,7 @@
 #include    "Neopixel.h"
 
 
-#define LED_NUM 45
+#define LED_NUM 10
 
 void rainbowCycle(void);
 void solidColour(void);
@@ -47,6 +47,10 @@ unsigned char greens[LED_NUM];
 unsigned char blues[LED_NUM];
 
 unsigned char decodedData;
+bool received = false;
+bool repeated = false;
+
+bool on = true;
 
 bool dataArray[32];
 
@@ -60,115 +64,103 @@ int main(void) {
     
     
     TRISC &= 0b11011111;
-            
-    while(1) {
-        receive();
-        //LED1 = H3IN;
-        /*
-        if(receive()) {
-            LED1 = true;
-        } else {
-            LED1 = false;
-            __delay_ms(500);
-            LED1 = true;
-            __delay_ms(500);
-            LED1 = false;
-            __delay_ms(500);
-            LED1 = true;
-            __delay_ms(500);
-            LED1 = false;
-            __delay_ms(500);
-            LED1 = true;
-            __delay_ms(500);
-        }
-        
-        for(unsigned char i = 0; i < 8; i++) {
-            LED2 = decodedData & 0b00000001 != 0;
-            LED3 = decodedData & 0b00000010 != 0;
-            LED4 = decodedData & 0b00000100 != 0;
-            LED5 = decodedData & 0b00001000 != 0;
-            
-            __delay_ms(500);
-            
-            LED2 = decodedData & 0b00010000 != 0;
-            LED3 = decodedData & 0b00100000 != 0;
-            LED4 = decodedData & 0b01000000 != 0;
-            LED5 = decodedData & 0b10000000 != 0;
-            
-            __delay_ms(500);
-        }
-        
-        LED1 = LED2 = LED3 = LED4 = LED5 = 0;*/
-        
-    }
     
-    /*
-    void doAlittleTrolling() {
+    LED1 = 0;
+    LED3 = 1;
+            
+    while(1) {
+        received = false;
+        repeated = false;
+        //LED4 = !LED4;
         
-        while (cap == true) {
-            
-            Legromp++;
-            if (legromp > cap) {
-                
-                eat.exe;
-                        
-                heal.player.sheesh;
-                Get drake;
-                playerGun = ODIN;
-                
-                Sage = GOD TIER;
-                
-                Bucky.update = buff;
-                If (Bucky.update = true) {
-                    
-                    Meikai = quaduple.ace
+        LED1 = !LED1;
+        LED3 = !LED3;
+        
+        received = receive();
+        
+//        if(receive()) {
+//            for(uint8_t i = 0; i < 8; i++) {
+//                reds[i] = dataArray[i + 16] == 0 ? 0 : 128;
+//                greens[i] = 128 - reds[i];
+//                blues[i] = 0;
+//            }
+//
+//            neopixel_fill_a(8, reds, greens, blues);
+//        }
+        
+        if(received && !repeated && decodedData == 0b10100010) {
+            on = !on;
+            if(!on) {
+                for(unsigned char i = 0; i < LED_NUM; i++) {
+                    reds[i] = 0;
+                    greens[i] = 0;
+                    blues[i] = 0;
                 }
-                Sheesh
             }
-            
         }
         
-    }
-     * */
-    /*
-    // Code in this while loop runs repeatedly.
-    while(1) {
         neopixel_fill_a(LED_NUM, reds, greens, blues);
         
-        if(SW1 == 0 && ticks_left == 0) {
-            functionIndex++;
-            functionIndex %= numFunctions;
-            
-            for(unsigned char i = 0; i < LED_NUM; i++) {
-                reds[i] = 0;
-                greens[i] = 0;
-                blues[i] = 0;
+        if(on) {
+            if(SW1 == 0 && ticks_left == 0) {
+                functionIndex++;
+                functionIndex %= numFunctions;
+
+                for(unsigned char i = 0; i < LED_NUM; i++) {
+                    reds[i] = 0;
+                    greens[i] = 0;
+                    blues[i] = 0;
+                }
+
+                ticks_left = 20;
             }
-            
-            ticks_left = 20;
+
+            (*colorFunctions[functionIndex])();
+
+            if(ticks_left != 0) ticks_left--;
+
+            tick++;
         }
         
-        (*colorFunctions[functionIndex])();
-        
-        if(ticks_left != 0) ticks_left--;
-        
-        tick++;
         
         // Activate bootloader if SW1 is pressed.
         if(SW1 == 0 && SW2 == 0) {
             RESET();
         }
+        
+    }
+    /*
+    // Code in this while loop runs repeatedly.
+    while(1) {
+        
     }*/
 }
 
 bool receive() {
-    LED1 = 0;
-    while(H3IN);
+    LED5 = 0;
+    if(H3IN) {
+        LED5 = 1;
+        return false;
+    }
+    /*
+    for(uint8_t i = 0; i < 8; i++) { // Ommitted in order to capture pulses more reliably
+        __delay_ms(1);
+        if(H3IN) {
+            return false;
+        }
+    }*/
     while(!H3IN);
-    while(H3IN);
+    __delay_us(2260);
+    if(!H3IN) {
+        LED6 = !LED6;
+        repeated = true;
+        LED5 = 1;
+        return true;
+    }
+    __delay_us(2240);
     
     __delay_us(560);
-    
+    LED5 = 1;
     uint8_t dataIndex = 0;
     uint8_t oneNumber = 0;
     for (uint8_t i = 0; i != 255; i++) {
@@ -186,6 +178,9 @@ bool receive() {
             __delay_us(559);
         } else {
             oneNumber++;
+            if(oneNumber == 4) { // Illegal in NEC
+                return false;
+            }
             __delay_us(560);
         }
     }
@@ -211,144 +206,19 @@ bool receive() {
     
     
     if(address != 0 || address ^ notAddress != 0xFF) {
-        LED4 = 1;
+        LED4 = !LED4;
         return false;
     }
     
-    if(data ^ notData != 0xFF) {
-        LED3 = 1;
-        //return false;
-    }
+//    if(data ^ notData != 0xFF) {
+//        //return false;
+//    }
     
-    __delay_ms(500);
     decodedData = data;
     
-    for(uint8_t i = 0; i < 8; i++) {
-        reds[i] = dataArray[i + 16] == 0 ? 0 : 128;
-        greens[i] = 128 - reds[i];
-        blues[i] = 0;
-    }
     
-    neopixel_fill_a(8, reds, greens, blues);
-    
-    unsigned char i = 0;
-    
-    LED1 = 0;
-    
-    while(true) {
-        LED1 = !LED1;
-        switch(i) {
-            case 0:
-                LED3 = (address & 0b00000001) != 0;
-                LED4 = (address & 0b00000010) != 0;
-                LED5 = (address & 0b00000100) != 0;
-                LED6 = (address & 0b00001000) != 0;
-                break;
-            case 1:
-                LED3 = (address & 0b00010000) != 0;
-                LED4 = (address & 0b00100000) != 0;
-                LED5 = (address & 0b01000000) != 0;
-                LED6 = (address & 0b10000000) != 0;
-                break;
-            case 2:
-                LED3 = (notAddress & 0b00000001) != 0;
-                LED4 = (notAddress & 0b00000010) != 0;
-                LED5 = (notAddress & 0b00000100) != 0;
-                LED6 = (notAddress & 0b00001000) != 0;
-                break;
-            case 3:
-                LED3 = (notAddress & 0b00010000) != 0;
-                LED4 = (notAddress & 0b00100000) != 0;
-                LED5 = (notAddress & 0b01000000) != 0;
-                LED6 = (notAddress & 0b10000000) != 0;
-                break;
-            case 4:
-                LED3 = (data & 0b00000001) != 0;
-                LED4 = (data & 0b00000010) != 0;
-                LED5 = (data & 0b00000100) != 0;
-                LED6 = (data & 0b00001000) != 0;
-                break;
-            case 5:
-                LED3 = (data & 0b00010000) != 0;
-                LED4 = (data & 0b00100000) != 0;
-                LED5 = (data & 0b01000000) != 0;
-                LED6 = (data & 0b10000000) != 0;
-                break;
-            case 6:
-                LED3 = (notData & 0b00000001) != 0;
-                LED4 = (notData & 0b00000010) != 0;
-                LED5 = (notData & 0b00000100) != 0;
-                LED6 = (notData & 0b00001000) != 0;
-                break;
-            case 7:
-                LED3 = (notData & 0b00010000) != 0;
-                LED4 = (notData & 0b00100000) != 0;
-                LED5 = (notData & 0b01000000) != 0;
-                LED6 = (notData & 0b10000000) != 0;
-                break;
-        }
-        
-        __delay_ms(250);
-        while(SW2 == 1 && SW3 == 1 && SW4 == 1);
-        if(SW2 == 0) {
-            i--;
-            if(i == 255) {
-                i = 7;
-            }
-        } else if(SW3 == 0) {
-            i++;
-            if(i == 8) {
-                i = 0;
-            }
-        } else {
-            return true;
-        }
-    }
     
     return true;
-    
-    /*
-    __delay_ms(40);
-    __delay_us(550);
-    unsigned char signal = 0;
-    
-    for(unsigned char i = 0; i < 8; i++) {
-        if(!H3IN) {
-            signal |= 1;
-            __delay_us(1120);
-        }
-        signal <<= 1;
-        __delay_us(1120);
-    }
-    
-    for(unsigned char i = 0; i < 8; i++) {
-        if(!H3IN) {
-            signal |= 1;
-            __delay_us(1120);
-        }
-        signal <<= 1;
-        __delay_us(1120);
-    }
-    
-    unsigned char antisignal = 0;
-    for(unsigned char i = 0; i < 8; i++) {
-        if(!H3IN) {
-            antisignal |= 1;
-            __delay_us(1120);
-        }
-        antisignal <<= 1;
-        __delay_us(1120);
-    }*/
-    
-    /*
-    if(~antisignal != signal) {
-        decodedData = signal;
-        return false;
-    }
-    
-    decodedData = signal;
-    
-    return true;*/
 }
 
 bool reversed = false;
@@ -376,9 +246,9 @@ void rainbowCycle() {
     
     for(unsigned char i = 0; i < LED_NUM; i++) {
         if(reversed) {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick) + (i * 2), 255, pot);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick) + (i * 2), 255, 255);
         } else {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick) + (i * 2), 255, pot);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick) + (i * 2), 255, 255);
         }
         reds[i] >>= left_shift;
         greens[i] >>= left_shift;
@@ -413,7 +283,7 @@ void solidColour() {
     unsigned char pot = ADC_read();
     
     for(unsigned char i = 0; i < LED_NUM; i++) {
-        hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, pot);
+        hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, 255);
         
         reds[i] >>= left_shift;
         greens[i] >>= left_shift;
