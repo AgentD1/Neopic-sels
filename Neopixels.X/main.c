@@ -14,11 +14,12 @@
 #include    "xc.h"              // Microchip XC8 compiler include file
 #include    "stdint.h"          // Include integer definitions
 #include    "stdbool.h"         // Include Boolean (true/false) definitions
-#include <stdlib.h>
+#include    <stdlib.h>
 
 #include    "UBMP4.h"           // Include UBMP4 constants and functions
 
 #include    "Neopixel.h"
+#include    "IR.h"
 
 
 #define LED_NUM 10
@@ -30,7 +31,6 @@ void debug(void);
 void randomLightup(void);
 void potentiometerReading(void);
 
-bool receive(void);
 
 void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned char h, unsigned char s, unsigned char v);
 void setCode(unsigned char number, unsigned char *r1, unsigned char *g1, unsigned char *b1, unsigned char *r2, unsigned char *g2, unsigned char *b2, unsigned char *r3, unsigned char *g3);
@@ -46,13 +46,9 @@ unsigned char reds[LED_NUM];
 unsigned char greens[LED_NUM];
 unsigned char blues[LED_NUM];
 
-unsigned char decodedData;
-bool received = false;
-bool repeated = false;
 
 bool on = true;
 
-bool dataArray[32];
 
 int main(void) {
     // Configure oscillator and I/O ports. These functions run once at start-up.
@@ -88,7 +84,7 @@ int main(void) {
 //            neopixel_fill_a(8, reds, greens, blues);
 //        }
         
-        if(received && !repeated && decodedData == 0b10100010) {
+        if(received && !repeated && decodedData == IR_POWER) {
             on = !on;
             if(!on) {
                 for(unsigned char i = 0; i < LED_NUM; i++) {
@@ -122,107 +118,20 @@ int main(void) {
             tick++;
         }
         
-        
         // Activate bootloader if SW1 is pressed.
         if(SW1 == 0 && SW2 == 0) {
             RESET();
         }
         
     }
-    /*
-    // Code in this while loop runs repeatedly.
-    while(1) {
-        
-    }*/
 }
 
-bool receive() {
-    LED5 = 0;
-    if(H3IN) {
-        LED5 = 1;
-        return false;
-    }
-    /*
-    for(uint8_t i = 0; i < 8; i++) { // Ommitted in order to capture pulses more reliably
-        __delay_ms(1);
-        if(H3IN) {
-            return false;
-        }
-    }*/
-    while(!H3IN);
-    __delay_us(2260);
-    if(!H3IN) {
-        LED6 = !LED6;
-        repeated = true;
-        LED5 = 1;
-        return true;
-    }
-    __delay_us(2240);
-    
-    __delay_us(560);
-    LED5 = 1;
-    uint8_t dataIndex = 0;
-    uint8_t oneNumber = 0;
-    for (uint8_t i = 0; i != 255; i++) {
-        bool p = H3IN;
-        if(p == 0) {
-            if(oneNumber == 0) {
-                continue;
-            }
-            dataArray[dataIndex] = oneNumber != 1;
-            oneNumber = 0;
-            dataIndex++;
-            if(dataIndex == 32) {
-                break;
-            }
-            __delay_us(559);
-        } else {
-            oneNumber++;
-            if(oneNumber == 4) { // Illegal in NEC
-                return false;
-            }
-            __delay_us(560);
-        }
-    }
-    
-    uint8_t address, notAddress, data, notData;
-    
-    for(uint8_t i = 0; i < 8; i++) {
-        address |= dataArray[i];
-        if(i != 7) address <<= 1;
-    }
-    for(uint8_t i = 0; i < 8; i++) {
-        notAddress |= dataArray[i + 8];
-        if(i != 7) notAddress <<= 1;
-    }
-    for(uint8_t i = 0; i < 8; i++) {
-        data |= dataArray[i + 16];
-        if(i != 7) data <<= 1;
-    }
-    for(uint8_t i = 0; i < 8; i++) {
-        notData |= dataArray[i + 24];
-        if(i != 7) notData <<= 1;
-    }
-    
-    
-    if(address != 0 || address ^ notAddress != 0xFF) {
-        LED4 = !LED4;
-        return false;
-    }
-    
-//    if(data ^ notData != 0xFF) {
-//        //return false;
-//    }
-    
-    decodedData = data;
-    
-    
-    
-    return true;
-}
+
 
 bool reversed = false;
 unsigned char left_shift = 0;
+
+unsigned char brightness = 255;
 
 void rainbowCycle() {
     if(ticks_left == 0) {
@@ -239,16 +148,18 @@ void rainbowCycle() {
             ticks_left = 20;
         }
     }
-
-    __delay_ms(4);
-
-    unsigned char pot = ADC_read();
+    
+    if(received && decodedData == IR_VOLUMEUP) {
+        brightness += 5;
+    } else if(received && decodedData == IR_VOLUMEDOWN) {
+        brightness -= 5;
+    }
     
     for(unsigned char i = 0; i < LED_NUM; i++) {
         if(reversed) {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick) + (i * 2), 255, 255);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick) + (i * 2), 255, brightness);
         } else {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick) + (i * 2), 255, 255);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick) + (i * 2), 255, brightness);
         }
         reds[i] >>= left_shift;
         greens[i] >>= left_shift;

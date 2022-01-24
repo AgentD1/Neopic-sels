@@ -7,6 +7,7 @@
       <itemPath>PIC16F1459config.h</itemPath>
       <itemPath>UBMP4.h</itemPath>
       <itemPath>Neopixel.h</itemPath>
+      <itemPath>IR.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -18,6 +19,7 @@
       <itemPath>UBMP4.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>Neopixel.c</itemPath>
+      <itemPath>IR.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

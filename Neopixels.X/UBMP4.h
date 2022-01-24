@@ -21,6 +21,9 @@
 
 // TODO - Add/modify user constant definitions for UBMP hardware here.
 
+#ifndef UBMP4_H
+#define UBMP4_H
+
 // PORTA I/O pin definitions
 #define SW1         PORTAbits.RA3   // S1/Reset pushbutton input
 #define BEEPER      LATAbits.LATA4  // Piezo beeper (LS1) output
@@ -149,3 +152,4 @@ unsigned char ADC_read_channel(unsigned char);
 
 // TODO - Add additional function prototypes for new functions in UBMP4.c here.
 
+#endif
