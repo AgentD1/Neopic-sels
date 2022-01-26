@@ -30,14 +30,15 @@ void pulsingSolidColour(void);
 void debug(void);
 void randomLightup(void);
 void potentiometerReading(void);
+void receiveDebug(void);
 
 
 void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned char h, unsigned char s, unsigned char v);
 void setCode(unsigned char number, unsigned char *r1, unsigned char *g1, unsigned char *b1, unsigned char *r2, unsigned char *g2, unsigned char *b2, unsigned char *r3, unsigned char *g3);
 
-unsigned char numFunctions = 6;
+unsigned char numFunctions = 8;
 unsigned char functionIndex = 0;
-void (*colorFunctions[])(void) = { rainbowCycle, solidColour, pulsingSolidColour, debug, randomLightup, potentiometerReading };
+void (*colorFunctions[])(void) = { rainbowCycle, solidColour, pulsingSolidColour, debug, randomLightup, potentiometerReading, receiveDebug };
 
 int tick = 1;
 int ticks_left = 0;
@@ -84,7 +85,8 @@ int main(void) {
 //            neopixel_fill_a(8, reds, greens, blues);
 //        }
         
-        if(received && !repeated && decodedData == IR_POWER) {
+        
+        /*if(received && !repeated && decodedData == IR_POWER) {
             on = !on;
             if(!on) {
                 for(unsigned char i = 0; i < LED_NUM; i++) {
@@ -93,7 +95,7 @@ int main(void) {
                     blues[i] = 0;
                 }
             }
-        }
+        }*/
         
         neopixel_fill_a(LED_NUM, reds, greens, blues);
         
@@ -108,7 +110,7 @@ int main(void) {
                     blues[i] = 0;
                 }
 
-                ticks_left = 20;
+                ticks_left = 100;
             }
 
             (*colorFunctions[functionIndex])();
@@ -116,6 +118,8 @@ int main(void) {
             if(ticks_left != 0) ticks_left--;
 
             tick++;
+        } else {
+            receiveDebug();
         }
         
         // Activate bootloader if SW1 is pressed.
@@ -131,9 +135,12 @@ int main(void) {
 bool reversed = false;
 unsigned char left_shift = 0;
 
+unsigned char speed = 1;
+
 unsigned char brightness = 255;
 
 void rainbowCycle() {
+
     if(ticks_left == 0) {
         if(SW2 == 0 && left_shift != 8) {
             left_shift++;
@@ -149,17 +156,29 @@ void rainbowCycle() {
         }
     }
     
-    if(received && decodedData == IR_VOLUMEUP) {
-        brightness += 5;
-    } else if(received && decodedData == IR_VOLUMEDOWN) {
-        brightness -= 5;
+    if(received) {
+        if(decodedData == IR_VOLUMEUP) {
+            brightness += 5;
+        } else if(decodedData == IR_VOLUMEDOWN) {
+            brightness -= 5;
+        } else if(decodedData == IR_FASTBACKWARD) {
+            speed--;
+            if(speed == 0) {
+                speed = 9;
+            }
+        } else if(decodedData == IR_FASTFORWARD) {
+            speed++;
+            if(speed == 9) {
+                speed = 0;
+            }
+        }
     }
     
     for(unsigned char i = 0; i < LED_NUM; i++) {
         if(reversed) {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick) + (i * 2), 255, brightness);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick / speed) + (i * 1), 255, brightness);
         } else {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick) + (i * 2), 255, brightness);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick / speed) + (i * 1), 255, brightness);
         }
         reds[i] >>= left_shift;
         greens[i] >>= left_shift;
@@ -361,6 +380,24 @@ void randomLightup() {
     if(tick % 8 == 0) {
         hue++;
     }
+}
+
+void receiveDebug() {
+    for(uint8_t i = 0; i < 8; i++) {
+        reds[i] = ((decodedData << i) & 0b10000000) == 0 ? 0 : 128;
+        greens[i] = 128 - reds[i];
+        blues[i] = 0;
+    }
+    
+    blues[8] = blues[9] = 0;
+    
+    if(received && decodedData == IR_VOLUMEUP) {
+        blues[8] = 128;
+    } else if(received && decodedData == IR_VOLUMEDOWN) {
+        blues[9] = 128;
+    }
+    
+    __delay_ms(5);
 }
 
 void potentiometerReading() {

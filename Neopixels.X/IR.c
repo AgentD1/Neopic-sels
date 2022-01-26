@@ -53,7 +53,7 @@ bool receive() {
             if(dataIndex == 32) {
                 break;
             }
-            __delay_us(559);
+            while(!H3IN);
         } else {
             oneNumber++;
             if(oneNumber == 4) { // Illegal in NEC
@@ -84,7 +84,7 @@ bool receive() {
     
     
     if(address != 0 || (address ^ notAddress) != 0xFF) {
-        LED4 = !LED4;
+        //LED4 = !LED4;
         return false;
     }
     
