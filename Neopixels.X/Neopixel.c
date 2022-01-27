@@ -8,11 +8,12 @@
 
 #include <xc.h>
 #include "UBMP4.h"
+#include "stdint.h"
 
-void neopixel_colour_send(unsigned char colour);
+void neopixel_colour_send(uint8_t colour);
 
-void neopixel_fill_a(unsigned char leds, unsigned char red[], unsigned char green[], unsigned char blue[]) {
-    unsigned char ledNum = 0;
+void neopixel_fill_a(uint8_t leds, uint8_t red[], uint8_t green[], uint8_t blue[]) {
+    uint8_t ledNum = 0;
     for(; ledNum != leds; ledNum++) {
         neopixel_colour_send(green[ledNum]);
         neopixel_colour_send(red[ledNum]);
@@ -20,7 +21,7 @@ void neopixel_fill_a(unsigned char leds, unsigned char red[], unsigned char gree
     }
 }
 
-void neopixel_fill(unsigned char leds, unsigned char red, unsigned char green, unsigned char blue) {
+void neopixel_fill(uint8_t leds, uint8_t red, uint8_t green, uint8_t blue) {
     for(; leds != 0; leds --) {
         neopixel_colour_send(green);
         neopixel_colour_send(red);
@@ -28,8 +29,8 @@ void neopixel_fill(unsigned char leds, unsigned char red, unsigned char green, u
     }
 }
 
-void neopixel_colour_send(unsigned char colour) {
-    for(unsigned char bits = 8; bits != 0; bits --) {
+void neopixel_colour_send(uint8_t colour) {
+    for(uint8_t bits = 8; bits != 0; bits --) {
         H1OUT = 1;
         if((colour & 0b10000000) == 0) {
             H1OUT = 0;

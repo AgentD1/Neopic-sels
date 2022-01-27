@@ -31,7 +31,7 @@
 #ifndef IR_H
 #define	IR_H
 
-unsigned char decodedData;
+uint8_t decodedData;
 bool received = false;
 bool repeated = false;
 

@@ -33,7 +33,7 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-void neopixel_fill_a(unsigned char leds, unsigned char red[], unsigned char green[], unsigned char blue[]);
-void neopixel_fill(unsigned char, unsigned char, unsigned char, unsigned char);
+void neopixel_fill_a(uint8_t leds, uint8_t red[], uint8_t green[], uint8_t blue[]);
+void neopixel_fill(uint8_t, uint8_t, uint8_t, uint8_t);
 
 #endif

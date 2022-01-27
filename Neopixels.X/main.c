@@ -33,21 +33,21 @@ void potentiometerReading(void);
 void receiveDebug(void);
 
 
-void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned char h, unsigned char s, unsigned char v);
-void setCode(unsigned char number, unsigned char *r1, unsigned char *g1, unsigned char *b1, unsigned char *r2, unsigned char *g2, unsigned char *b2, unsigned char *r3, unsigned char *g3);
+void hsvtorgb(uint8_t* r, uint8_t *g, uint8_t *b, uint8_t h, uint8_t s, uint8_t v);
+void setCode(uint8_t number, uint8_t *r1, uint8_t *g1, uint8_t *b1, uint8_t *r2, uint8_t *g2, uint8_t *b2, uint8_t *r3, uint8_t *g3);
 
-unsigned char numFunctions = 8;
-unsigned char functionIndex = 0;
-void (*colorFunctions[])(void) = { rainbowCycle, solidColour, pulsingSolidColour, debug, randomLightup, potentiometerReading, receiveDebug };
+uint8_t numFunctions = 4;
+uint8_t functionIndex = 0;
+void (*colorFunctions[])(void) = { rainbowCycle, solidColour, pulsingSolidColour, randomLightup };
 
 int tick = 1;
 int ticks_left = 0;
 
-unsigned char reds[LED_NUM];
-unsigned char greens[LED_NUM];
-unsigned char blues[LED_NUM];
+uint8_t reds[LED_NUM];
+uint8_t greens[LED_NUM];
+uint8_t blues[LED_NUM];
 
-const char gamma[256] = {
+const uint8_t gamma[256] = {
     0, 0, 0, 0, 0, 0, 0, 0,
     1, 1, 1, 1, 1, 1, 1, 2,
     2, 2, 2, 2, 3, 3, 3, 3,
@@ -110,21 +110,11 @@ int main(void) {
         
         received = receive();
         
-//        if(receive()) {
-//            for(uint8_t i = 0; i < 8; i++) {
-//                reds[i] = dataArray[i + 16] == 0 ? 0 : 128;
-//                greens[i] = 128 - reds[i];
-//                blues[i] = 0;
-//            }
-//
-//            neopixel_fill_a(8, reds, greens, blues);
-//        }
-        
         
         if(received && !repeated && decodedData == IR_POWER) {
             on = !on;
             if(!on) {
-                for(unsigned char i = 0; i < LED_NUM; i++) {
+                for(uint8_t i = 0; i < LED_NUM; i++) {
                     reds[i] = 0;
                     greens[i] = 0;
                     blues[i] = 0;
@@ -141,11 +131,11 @@ int main(void) {
         neopixel_fill_a(LED_NUM, reds, greens, blues);
         
         if(on) {
-            if(SW1 == 0 && ticks_left == 0) {
+            if((SW1 == 0 && ticks_left == 0) || (received && !repeated && decodedData == IR_FUNC_STOP)) {
                 functionIndex++;
                 functionIndex %= numFunctions;
 
-                for(unsigned char i = 0; i < LED_NUM; i++) {
+                for(uint8_t i = 0; i < LED_NUM; i++) {
                     reds[i] = 0;
                     greens[i] = 0;
                     blues[i] = 0;
@@ -172,14 +162,15 @@ int main(void) {
 
 
 bool reversed = false;
-unsigned char left_shift = 0;
+uint8_t left_shift = 0;
 
-unsigned char speed = 1;
+uint8_t speed = 1;
 
-unsigned char brightness = 255;
+uint8_t brightness = 255;
+
+uint16_t rainbowCycleTick = 0;
 
 void rainbowCycle() {
-
     if(ticks_left == 0) {
         if(SW2 == 0 && left_shift != 8) {
             left_shift++;
@@ -200,12 +191,12 @@ void rainbowCycle() {
             brightness += 5;
         } else if(decodedData == IR_EQ) {
             brightness -= 5;
-        } else if(decodedData == IR_FASTBACKWARD) {
+        } else if(!repeated && decodedData == IR_DOWNARROW) {
             speed--;
             if(speed == 0) {
                 speed = 9;
             }
-        } else if(decodedData == IR_FASTFORWARD) {
+        } else if(!repeated && decodedData == IR_ST_REPT) {
             speed++;
             if(speed == 9) {
                 speed = 0;
@@ -213,19 +204,23 @@ void rainbowCycle() {
         }
     }
     
-    for(unsigned char i = 0; i < LED_NUM; i++) {
+    for(uint8_t i = 0; i < LED_NUM; i++) {
         if(reversed) {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(-tick / speed) + (i * 1), 255, brightness);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (uint8_t)rainbowCycleTick + (i * 1), 255, brightness);
         } else {
-            hsvtorgb(&reds[i], &greens[i], &blues[i], (unsigned char)(tick / speed) + (i * 1), 255, brightness);
+            hsvtorgb(&reds[i], &greens[i], &blues[i], (uint8_t)rainbowCycleTick + (i * 1), 255, brightness);
         }
         reds[i] >>= left_shift;
         greens[i] >>= left_shift;
         blues[i] >>= left_shift;
     }
+    
+    if(tick % speed == 0) {
+        rainbowCycleTick++;
+    }
 }
 
-unsigned char hue = 1;
+uint8_t hue = 1;
 
 void solidColour() {
     if(ticks_left == 0) {
@@ -246,13 +241,23 @@ void solidColour() {
             ticks_left = 20;
         }
     }
+    
+    if(received) {
+        if(decodedData == IR_VOLUMEDOWN) {
+            brightness += 5;
+        } else if(decodedData == IR_EQ) {
+            brightness -= 5;
+        } else if(decodedData == IR_DOWNARROW) {
+            hue += 5;
+        } else if(decodedData == IR_ST_REPT) {
+            hue -= 5;
+        }
+    }
 
     __delay_ms(4);
 
-    unsigned char pot = ADC_read();
-    
-    for(unsigned char i = 0; i < LED_NUM; i++) {
-        hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, 255);
+    for(uint8_t i = 0; i < LED_NUM; i++) {
+        hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, brightness);
         
         reds[i] >>= left_shift;
         greens[i] >>= left_shift;
@@ -261,7 +266,7 @@ void solidColour() {
 }
 
 bool pulsingReversed = false;
-unsigned char pulsingTick = 0;
+uint8_t pulsingTick = 0;
 
 void pulsingSolidColour() {
     if(ticks_left == 0) {
@@ -282,6 +287,19 @@ void pulsingSolidColour() {
             ticks_left = 20;
         }
     }
+    
+    
+    if(received) {
+        if(decodedData == IR_VOLUMEDOWN) {
+            brightness += 5;
+        } else if(decodedData == IR_EQ) {
+            brightness -= 5;
+        } else if(decodedData == IR_DOWNARROW) {
+            hue += 5;
+        } else if(decodedData == IR_ST_REPT) {
+            hue -= 5;
+        }
+    }
 
     __delay_ms(4);
     
@@ -298,7 +316,7 @@ void pulsingSolidColour() {
         }
     }
 
-    for(unsigned char i = 0; i < LED_NUM; i++) {
+    for(uint8_t i = 0; i < LED_NUM; i++) {
         hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, pulsingTick);
         
         reds[i] >>= left_shift;
@@ -307,41 +325,9 @@ void pulsingSolidColour() {
     }
 }
 
-void debug() {
-    if(ticks_left == 0) {
-        if(SW2 == 0 && left_shift != 8) {
-            left_shift++;
-            ticks_left = 20;
-        }
-        if(SW3 == 0 && left_shift != 0) {
-            left_shift--;
-            ticks_left = 20;
-        }
-        if(SW4 == 0) {
-            hue += 1;
-            ticks_left = 20;
-        }
-        if(SW5 == 0) {
-            hue -= 1;
-            ticks_left = 20;
-        }
-    }
-
-    __delay_ms(4);
-
-    for(unsigned char i = 0; i < LED_NUM; i++) {
-        hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, 255);
-        
-        reds[i] >>= left_shift;
-        greens[i] >>= left_shift;
-        blues[i] >>= left_shift;
-    }
-    
-    setCode(hue, &reds[0], &greens[0], &blues[0], &reds[1], &greens[1], &blues[1], &reds[2], &greens[2]);
-    blues[2] = 0;
-}
 
 float redsf[LED_NUM], greensf[LED_NUM], bluesf[LED_NUM];
+float reductionMultiple = 0.95;
 
 void randomLightup() {
     if(ticks_left == 0) {
@@ -357,12 +343,32 @@ void randomLightup() {
 
     __delay_ms(4);
     
-    unsigned char reduction = 2;
+    uint8_t reduction = 2;
+    
+    if(received) {
+        if(decodedData == IR_VOLUMEDOWN) {
+            reductionMultiple += 0.01;
+            if(reductionMultiple > 0.99) reductionMultiple = 0.99;
+        } else if(decodedData == IR_EQ) {
+            reductionMultiple -= 0.01;
+            if(reductionMultiple < 0.9) reductionMultiple = 0.9;
+        } else if(decodedData == IR_DOWNARROW) {
+            speed--;
+            if(speed == 0) {
+                speed = 9;
+            }
+        } else if(!repeated && decodedData == IR_ST_REPT) {
+            speed++;
+            if(speed == 9) {
+                speed = 0;
+            }
+        }
+    }
 
-    for(unsigned char i = 0; i < LED_NUM; i++) {
-        redsf[i] *= 0.95;
-        greensf[i] *= 0.95;
-        bluesf[i] *= 0.95;
+    for(uint8_t i = 0; i < LED_NUM; i++) {
+        redsf[i] *= reductionMultiple;
+        greensf[i] *= reductionMultiple;
+        bluesf[i] *= reductionMultiple;
         
         reds[i] = redsf[i];
         greens[i] = greensf[i];
@@ -392,44 +398,21 @@ void randomLightup() {
             bluesf[i] = 0;
         }
         
-        if((char)(rand()) == 255) {
+        if((uint8_t)(rand()) == 255) {
             hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, 255);
             redsf[i] = reds[i];
             greensf[i] = greens[i];
             bluesf[i] = blues[i];
         }
     }
-        
-    if(tick % 8 == 0) {
+    
+    if(tick % speed == 0) {
         hue++;
     }
 }
 
-void receiveDebug() {
-    for(uint8_t i = 0; i < 8; i++) {
-        reds[i] = ((decodedData << i) & 0b10000000) == 0 ? 0 : 128;
-        greens[i] = 128 - reds[i];
-        blues[i] = 0;
-    }
-    
-    blues[8] = blues[9] = 0;
-    
-    if(received && decodedData == IR_VOLUMEUP) {
-        blues[8] = 128;
-    } else if(received && decodedData == IR_VOLUMEDOWN) {
-        blues[9] = 128;
-    }
-    
-    __delay_ms(5);
-}
-
-void potentiometerReading() {
-    setCode(ADC_read(), &reds[0], &greens[0], &blues[0], &reds[1], &greens[1], &blues[1], &reds[2], &greens[2]);
-    
-    __delay_ms(10);
-}
-
-void setCode(unsigned char number, unsigned char *r1, unsigned char *g1, unsigned char *b1, unsigned char *r2, unsigned char *g2, unsigned char *b2, unsigned char *r3, unsigned char *g3) {
+/*
+void setCode(uint8_t number, uint8_t *r1, uint8_t *g1, uint8_t *b1, uint8_t *r2, uint8_t *g2, uint8_t *b2, uint8_t *r3, uint8_t *g3) {
     *r1 = ((number & 0b00000001) != 0) * 32;
     *g1 = ((number & 0b00000010) != 0) * 32;
     *b1 = ((number & 0b00000100) != 0) * 32;
@@ -438,12 +421,12 @@ void setCode(unsigned char number, unsigned char *r1, unsigned char *g1, unsigne
     *b2 = ((number & 0b00100000) != 0) * 32;
     *r3 = ((number & 0b01000000) != 0) * 32;
     *g3 = ((number & 0b10000000) != 0) * 32;
-}
+}*/
 
 // https://stackoverflow.com/a/22120275
-void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned char h1, unsigned char s1, unsigned char v1) {
-    unsigned char region, p, q, t;
-    unsigned int h, s, v, remainder;
+void hsvtorgb(uint8_t *r, uint8_t *g, uint8_t *b, uint8_t h1, uint8_t s1, uint8_t v1) {
+    uint8_t region, p, q, t;
+    uint16_t h, s, v, remainder;
 
     if (s1 == 0)
     {
@@ -498,20 +481,63 @@ void hsvtorgb(unsigned char *r, unsigned char *g, unsigned char *b, unsigned cha
             break;
     }
 }
-/*
-unsigned long randState = 6666;
 
-unsigned long rand() {
-    const unsigned long A = 48271;
+/*
+void receiveDebug() {
+    for(uint8_t i = 0; i < 8; i++) {
+        reds[i] = ((decodedData << i) & 0b10000000) == 0 ? 0 : 128;
+        greens[i] = 128 - reds[i];
+        blues[i] = 0;
+    }
     
-    unsigned long low = (randState & 0x7fff) * A;
-    unsigned long high = (randState >> 15) * A;
+    blues[8] = blues[9] = 0;
     
-    unsigned long x = low + ((high & 0xffff) << 15) + (high >> 16);
+    if(received && decodedData == IR_VOLUMEUP) {
+        blues[8] = 128;
+    } else if(received && decodedData == IR_VOLUMEDOWN) {
+        blues[9] = 128;
+    }
     
-    x = (x & 0x7fffffff) + (x >> 31);
+    __delay_ms(5);
+}
+
+void potentiometerReading() {
+    setCode(ADC_read(), &reds[0], &greens[0], &blues[0], &reds[1], &greens[1], &blues[1], &reds[2], &greens[2]);
     
-    randState = x;
+    __delay_ms(10);
+}
+void debug() {
+    if(ticks_left == 0) {
+        if(SW2 == 0 && left_shift != 8) {
+            left_shift++;
+            ticks_left = 20;
+        }
+        if(SW3 == 0 && left_shift != 0) {
+            left_shift--;
+            ticks_left = 20;
+        }
+        if(SW4 == 0) {
+            hue += 1;
+            ticks_left = 20;
+        }
+        if(SW5 == 0) {
+            hue -= 1;
+            ticks_left = 20;
+        }
+    }
+
+    __delay_ms(4);
+
+    for(uint8_t i = 0; i < LED_NUM; i++) {
+        hsvtorgb(&reds[i], &greens[i], &blues[i], hue, 255, 255);
+        
+        reds[i] >>= left_shift;
+        greens[i] >>= left_shift;
+        blues[i] >>= left_shift;
+    }
     
-    return x;
-}*/
+    setCode(hue, &reds[0], &greens[0], &blues[0], &reds[1], &greens[1], &blues[1], &reds[2], &greens[2]);
+    blues[2] = 0;
+}
+
+*/
