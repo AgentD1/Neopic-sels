@@ -47,6 +47,41 @@ unsigned char reds[LED_NUM];
 unsigned char greens[LED_NUM];
 unsigned char blues[LED_NUM];
 
+const char gamma[256] = {
+    0, 0, 0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 2,
+    2, 2, 2, 2, 3, 3, 3, 3,
+    4, 4, 4, 4, 5, 5, 5, 6,
+    6, 6, 7, 7, 8, 8, 8, 9,
+    9, 10, 10, 10, 11, 11, 12, 12,
+    13, 13, 14, 14, 15, 15, 16, 16,
+    17, 17, 18, 18, 19, 19, 20, 21,
+    21, 22, 22, 23, 24, 24, 25, 26,
+    26, 27, 28, 28, 29, 30, 30, 31,
+    32, 32, 33, 34, 35, 35, 36, 37,
+    38, 38, 39, 40, 41, 41, 42, 43,
+    44, 45, 46, 46, 47, 48, 49, 50,
+    51, 52, 53, 53, 54, 55, 56, 57,
+    58, 59, 60, 61, 62, 63, 64, 65,
+    66, 67, 68, 69, 70, 71, 72, 73,
+    74, 75, 76, 77, 78, 79, 80, 81,
+    82, 83, 84, 86, 87, 88, 89, 90,
+    91, 92, 93, 95, 96, 97, 98, 99,
+    100, 102, 103, 104, 105, 107, 108, 109,
+    110, 111, 113, 114, 115, 116, 118, 119,
+    120, 122, 123, 124, 126, 127, 128, 129,
+    131, 132, 134, 135, 136, 138, 139, 140,
+    142, 143, 145, 146, 147, 149, 150, 152,
+    153, 154, 156, 157, 159, 160, 162, 163,
+    165, 166, 168, 169, 171, 172, 174, 175,
+    177, 178, 180, 181, 183, 184, 186, 188,
+    189, 191, 192, 194, 195, 197, 199, 200,
+    202, 204, 205, 207, 208, 210, 212, 213,
+    215, 217, 218, 220, 222, 224, 225, 227,
+    229, 230, 232, 234, 236, 237, 239, 241,
+    243, 244, 246, 248, 250, 251, 253, 255
+};
+
 
 bool on = true;
 
@@ -86,7 +121,7 @@ int main(void) {
 //        }
         
         
-        /*if(received && !repeated && decodedData == IR_POWER) {
+        if(received && !repeated && decodedData == IR_POWER) {
             on = !on;
             if(!on) {
                 for(unsigned char i = 0; i < LED_NUM; i++) {
@@ -95,7 +130,13 @@ int main(void) {
                     blues[i] = 0;
                 }
             }
-        }*/
+        }
+        
+        for(uint8_t i = 0; i < LED_NUM; i++) {
+            reds[i] = gamma[reds[i]];
+            greens[i] = gamma[greens[i]];
+            blues[i] = gamma[blues[i]];
+        }
         
         neopixel_fill_a(LED_NUM, reds, greens, blues);
         
@@ -118,8 +159,6 @@ int main(void) {
             if(ticks_left != 0) ticks_left--;
 
             tick++;
-        } else {
-            receiveDebug();
         }
         
         // Activate bootloader if SW1 is pressed.
@@ -157,9 +196,9 @@ void rainbowCycle() {
     }
     
     if(received) {
-        if(decodedData == IR_VOLUMEUP) {
+        if(decodedData == IR_VOLUMEDOWN) {
             brightness += 5;
-        } else if(decodedData == IR_VOLUMEDOWN) {
+        } else if(decodedData == IR_EQ) {
             brightness -= 5;
         } else if(decodedData == IR_FASTBACKWARD) {
             speed--;
@@ -321,22 +360,6 @@ void randomLightup() {
     unsigned char reduction = 2;
 
     for(unsigned char i = 0; i < LED_NUM; i++) {
-//        if(reds[i] > reduction) {
-//            reds[i] -= reduction;
-//        } else if(reds[i] > 0) {
-//            reds[i] = 0;
-//        }
-//        if(greens[i] > reduction) {
-//            greens[i] -= reduction;
-//        } else if(greens[i] > 0) {
-//            greens[i] = 0;
-//        }
-//        if(blues[i] > reduction) {
-//            blues[i] -= reduction;
-//        } else if(blues[i] > 0) {
-//            blues[i] = 0;
-//        }
-        
         redsf[i] *= 0.95;
         greensf[i] *= 0.95;
         bluesf[i] *= 0.95;
